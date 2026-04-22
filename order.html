@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order | Natural Hype Juice and Jerk</title>
+    <meta name="description" content="Order Caribbean meals, drinks, soups, and breakfast from Natural Hype Juice and Jerk." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Natural Hype Juice and Jerk home">
+          <img src="/assets/logo.png" alt="Natural Hype logo" class="brand-logo" />
+          <div>
+            <strong>Natural Hype</strong>
+            <span>Juice and Jerk</span>
+          </div>
+        </a>
+        <nav class="nav">
+          <a href="/">Home</a>
+          <a href="/order.html">Order</a>
+          <a href="/checkout.html">Checkout</a>
+        </nav>
+        <button class="cart-chip" id="cartChip" type="button">Cart 0</button>
+      </header>
+
+      <main>
+        <section class="subpage-hero">
+          <div>
+            <p class="eyebrow">Order online</p>
+            <h1>Build your order</h1>
+            <p class="hero-text">
+              Browse the full menu here, choose sizes, add sauces, and then jump straight to checkout.
+            </p>
+          </div>
+          <a class="button primary" href="/checkout.html">Continue to Checkout</a>
+        </section>
+
+        <section class="menu-section" id="menu">
+          <div class="section-heading">
+            <p class="eyebrow">Full menu</p>
+            <h2>Choose your food and drinks</h2>
+            <p>Use search and filters to get to the right item quickly.</p>
+          </div>
+
+          <div class="menu-toolbar">
+            <div class="filters" id="filters"></div>
+            <label class="search-field">
+              <span>Search menu</span>
+              <input id="menuSearch" type="search" placeholder="Try jerk, sea moss, porridge..." />
+            </label>
+          </div>
+
+          <div class="menu-grid" id="menuGrid"></div>
+        </section>
+
+        <section class="cart-preview-section">
+          <div class="section-heading">
+            <p class="eyebrow">Basket preview</p>
+            <h2>What is in the cart so far</h2>
+          </div>
+          <div class="checkout-layout">
+            <aside class="cart-panel">
+              <div class="panel-head">
+                <h3>Your cart</h3>
+                <button id="clearCartButton" class="ghost-button" type="button">Clear</button>
+              </div>
+              <div id="cartItems" class="cart-items"></div>
+              <div class="cart-summary">
+                <div><span>Subtotal</span><strong id="subtotalValue">GBP 0.00</strong></div>
+                <div><span>Service fee</span><strong id="serviceFeeValue">GBP 0.00</strong></div>
+                <div class="grand-total"><span>Total</span><strong id="totalValue">GBP 0.00</strong></div>
+              </div>
+              <a class="button primary full-width-button" href="/checkout.html">Go to Checkout</a>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
