@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout | Natural Hype Juice and Jerk</title>
+    <meta name="description" content="Checkout your Natural Hype Juice and Jerk order securely." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Natural Hype Juice and Jerk home">
+          <img src="/assets/logo.png" alt="Natural Hype logo" class="brand-logo" />
+          <div>
+            <strong>Natural Hype</strong>
+            <span>Juice and Jerk</span>
+          </div>
+        </a>
+        <nav class="nav">
+          <a href="/">Home</a>
+          <a href="/order.html">Order</a>
+          <a href="/checkout.html">Checkout</a>
+        </nav>
+        <button class="cart-chip" id="cartChip" type="button">Cart 0</button>
+      </header>
+
+      <main>
+        <section class="subpage-hero">
+          <div>
+            <p class="eyebrow">Checkout</p>
+            <h1>Review and pay</h1>
+            <p class="hero-text">Review your basket, choose a collection time, and pay securely.</p>
+          </div>
+          <a class="button secondary" href="/order.html">Back to Menu</a>
+        </section>
+
+        <section class="checkout-section" id="checkout">
+          <div class="section-heading">
+            <p class="eyebrow">Secure checkout</p>
+            <h2>Review your order and pay</h2>
+            <p>Choose your service option, add your details, and continue to card payment.</p>
+          </div>
+
+          <div class="checkout-layout">
+            <aside class="cart-panel" id="cartPanel">
+              <div class="panel-head">
+                <h3>Your cart</h3>
+                <button id="clearCartButton" class="ghost-button" type="button">Clear</button>
+              </div>
+              <div id="cartItems" class="cart-items"></div>
+              <div class="cart-summary">
+                <div><span>Subtotal</span><strong id="subtotalValue">GBP 0.00</strong></div>
+                <div><span>Service fee</span><strong id="serviceFeeValue">GBP 0.00</strong></div>
+                <div class="grand-total"><span>Total</span><strong id="totalValue">GBP 0.00</strong></div>
+              </div>
+            </aside>
+
+            <form class="checkout-form" id="checkoutForm">
+              <p id="paymentDescription" class="checkout-note">Secure online payment is available for your order.</p>
+              <div class="field-row">
+                <label>
+                  <span>Full name</span>
+                  <input name="name" type="text" placeholder="Your full name" required />
+                </label>
+                <label>
+                  <span>Phone</span>
+                  <input
+                    name="phone"
+                    id="phoneInput"
+                    type="tel"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    placeholder="07123 456789"
+                    pattern="^(?:0|\+44\s?)[0-9\s]{9,14}$"
+                    title="Enter a UK phone number, for example 07123 456789"
+                    required
+                  />
+                </label>
+              </div>
+              <div class="field-row">
+                <label>
+                  <span>Email</span>
+                  <input name="email" type="email" placeholder="you@example.com" required />
+                </label>
+                <label>
+                  <span>Collection time</span>
+                  <select name="desiredTime" required>
+                    <option value="">Select a time</option>
+                    <option value="12:30">12:30</option>
+                    <option value="1:00">1:00</option>
+                    <option value="1:30">1:30</option>
+                    <option value="2:00">2:00</option>
+                    <option value="2:30">2:30</option>
+                    <option value="3:00">3:00</option>
+                    <option value="3:30">3:30</option>
+                    <option value="4:00">4:00</option>
+                    <option value="4:30">4:30</option>
+                    <option value="5:00">5:00</option>
+                    <option value="5:30">5:30</option>
+                    <option value="6:00">6:00</option>
+                    <option value="6:30">6:30</option>
+                    <option value="7:00">7:00</option>
+                    <option value="7:30">7:30</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="field-row service-row">
+                <label>
+                  <span>Service option</span>
+                  <select name="serviceMode" id="serviceMode">
+                    <option value="pickup">Pickup</option>
+                    <option value="dine-in">Dine-in</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>
+                <span>Order notes</span>
+                <textarea
+                  name="notes"
+                  rows="4"
+                  placeholder="Add spice level, allergies, or any extra requests"
+                ></textarea>
+              </label>
+
+              <div class="checkout-actions">
+                <button class="button primary checkout-button" id="checkoutButton" type="submit">
+                  Continue to payment
+                </button>
+                <p class="checkout-note" id="checkoutNote">You will continue to a secure payment page.</p>
+              </div>
+              <p class="form-message" id="formMessage" aria-live="polite"></p>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
