@@ -520,6 +520,16 @@ const menuItems = [
     options: [{ label: "Portion", price: 3.0 }]
   },
   {
+  id: "jerk-chicken-split",
+  name: "Jerk Chicken (Split)",
+  category: "Dumpling",
+  type: "finger-food",
+  description: "Jerk chicken split served in a soft dumpling.",
+  options: [
+    { label: "Single", price: 4.50 }
+  ]
+},
+  {
     id: "variety-snack-box",
     name: "Variety Snack Box",
     category: "Finger Food",
