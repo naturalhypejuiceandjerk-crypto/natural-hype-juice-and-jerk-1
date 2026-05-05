@@ -525,7 +525,8 @@ const menuItems = [
   category: "Dumpling",
   type: "finger-food",
   description: "Jerk chicken split served in a soft dumpling.",
-  options: [
+  image: "/assets/menu/jerk-chicken-split.jpg",
+   options: [
     { label: "Single", price: 4.50 }
   ]
 },
