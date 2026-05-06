@@ -813,4 +813,11 @@ body::before {
     height: 56px;
   }
 }
+.meal-card img,
+.menu-item img,
+.item-card img {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
 
