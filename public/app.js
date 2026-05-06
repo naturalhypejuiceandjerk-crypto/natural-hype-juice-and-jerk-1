@@ -136,22 +136,6 @@ const menuItems = [
     options: [{ label: "Salad Box", price: 9.0 }]
   },
   {
-    id: "fried-chicken-salad-box",
-    name: "Fried Chicken",
-    category: "Salad Boxes",
-    type: "salad",
-    description: "Crunchy fried chicken over a fresh salad box.",
-    options: [{ label: "Salad Box", price: 7.5 }]
-  },
-  {
-    id: "pepper-steak-salad-box",
-    name: "Pepper Steak",
-    category: "Salad Boxes",
-    type: "salad",
-    description: "Pepper steak served over a fresh salad box.",
-    options: [{ label: "Salad Box", price: 8.5 }]
-  },
-  {
     id: "curry-goat-salad-box",
     name: "Curry Goat",
     category: "Salad Boxes",
@@ -203,28 +187,6 @@ const menuItems = [
     options: [
       { label: "Medium", price: 12.5 },
       { label: "Large", price: 13.5 }
-    ]
-  },
-  {
-    id: "pineapple-jerk-chicken-special",
-    name: "Pineapple Jerk Chicken",
-    category: "Specials",
-    type: "meal",
-    description: "Pineapple jerk chicken special in medium or large.",
-    options: [
-      { label: "Medium", price: 12.5 },
-      { label: "Large", price: 13.5 }
-    ]
-  },
-  {
-    id: "curry-oxtail-special",
-    name: "Curry Oxtail",
-    category: "Specials",
-    type: "meal",
-    description: "Curry oxtail special served in two sizes.",
-    options: [
-      { label: "Medium", price: 12.7 },
-      { label: "Large", price: 13.7 }
     ]
   },
   {
@@ -480,36 +442,12 @@ const menuItems = [
     options: [{ label: "Portion", price: 1.5 }]
   },
   {
-    id: "jerk-chicken-portion",
-    name: "Jerk Chicken Portion",
-    category: "Finger Food",
-    type: "snack",
-    description: "Jerk chicken portion.",
-    options: [{ label: "Portion", price: 5.5 }]
-  },
-  {
-    id: "honey-glazed-portion",
-    name: "Honey Glazed Portion",
-    category: "Finger Food",
-    type: "snack",
-    description: "Honey glazed portion.",
-    options: [{ label: "Portion", price: 6.0 }]
-  },
-  {
     id: "curry-jerk-portion",
     name: "Curry Jerk Portion",
     category: "Finger Food",
     type: "snack",
     description: "Curry jerk portion.",
     options: [{ label: "Portion", price: 6.0 }]
-  },
-  {
-    id: "fried-chicken-portion",
-    name: "Fried Chicken",
-    category: "Finger Food",
-    type: "snack",
-    description: "Fried chicken portion.",
-    options: [{ label: "Portion", price: 4.0 }]
   },
   {
     id: "plantain-portion",
