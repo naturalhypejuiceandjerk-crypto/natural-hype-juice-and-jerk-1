@@ -38,17 +38,6 @@ const menuItems = [
     ]
   },
   {
-    id: "curry-goat",
-    name: "Curry Goat",
-    category: "Main Meals",
-    type: "meal",
-    description: "Caribbean curry goat served as a hearty main meal.",
-    options: [
-      { label: "Medium", price: 11.7 },
-      { label: "Large", price: 12.7 }
-    ]
-  },
-  {
     id: "oxtail",
     name: "Oxtail",
     category: "Main Meals",
