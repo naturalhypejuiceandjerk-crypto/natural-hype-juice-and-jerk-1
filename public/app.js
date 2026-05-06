@@ -311,14 +311,6 @@ const menuItems = [
     ]
   },
   {
-    id: "pineapple-water",
-    name: "Pineapple",
-    category: "Flavoured Water",
-    type: "drink",
-    description: "Light pineapple flavoured water.",
-    options: [{ label: "Bottle", price: 3.5 }]
-  },
-  {
     id: "beetroot-berries-water",
     name: "Beetroot Berries",
     category: "Flavoured Water",
