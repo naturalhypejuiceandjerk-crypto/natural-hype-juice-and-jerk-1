@@ -819,5 +819,19 @@ body::before {
   border-bottom: none !important;
   box-shadow: none !important;
 }
+.meal-card,
+.menu-item,
+.item-card {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.meal-card img,
+.menu-item img,
+.item-card img {
+    border: none !important;
+    box-shadow: none !important;
+}
+
 
 
