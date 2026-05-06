@@ -482,6 +482,7 @@ const photoAssets = {
   "kiwi-cucumber-pineapple-juice": `${assetBase}/kiwi-cucumber-pineapple-optimized.webp`,
   "guinness-punch": `${assetBase}/guinness-punch-optimized.webp`,
   "strawberry-seamoss-mix": `${assetBase}/strawbery.jpeg`,
+  "lemon-seamoss-mix": `${assetBase}/lemon.jpeg`,
   "pineapple-water": `${assetBase}/pineapple-carrot-ginger-optimized.webp`,
   "beetroot-berries-water": `${assetBase}/beetroot-berries-optimized.webp`,
   "carrot-pineapple-ginger-water": `${assetBase}/pineapple-carrot-ginger-optimized.webp`,
