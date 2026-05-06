@@ -480,7 +480,6 @@ const photoAssets = {
   "beetroot-berries-juice": `${assetBase}/beetroot-berries-optimized.webp`,
   "carrot-pineapple-ginger-juice": `${assetBase}/pineapple-carrot-ginger-optimized.webp`,
   "kiwi-cucumber-pineapple-juice": `${assetBase}/kiwi-cucumber-pineapple-optimized.webp`,
-  "magnum-punch": `${assetBase}/guinness-punch-optimized.webp`,
   "guinness-punch": `${assetBase}/guinness-punch-optimized.webp`,
   "pineapple-water": `${assetBase}/pineapple-carrot-ginger-optimized.webp`,
   "beetroot-berries-water": `${assetBase}/beetroot-berries-optimized.webp`,
