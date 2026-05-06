@@ -496,6 +496,7 @@ const photoAssets = {
   "kiwi-cucumber-pineapple-water": `${assetBase}/kiwi-cucumber-pineapple-optimized.webp`,
   "fried-chicken-portion": `${assetBase}/fried-chicken.jpg`,
   "jerk-chicken-portion": `${assetBase}/jamaican-jerk-chicken.jpg`,
+  "jerk-chicken-split": `${assetBase}/jerk-chicken-split.jpg`,
   "honey-glazed-portion": `${assetBase}/honey-glazed-chicken.jpg`,
   "curry-jerk-portion": `${assetBase}/curry-style-chicken.jpg`
 };
