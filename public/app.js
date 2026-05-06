@@ -415,6 +415,14 @@ const menuItems = [
     options: [{ label: "Portion", price: 5.0 }]
   },
   {
+    id:"jerk-chicken-split",
+    name:"Ckicken(Split)",
+    category:"Finger Food",
+    type:"snack",
+    description: "Tender grilled chicken in a warm toasted bun.",
+    options: [{ label: "Portion", price: 4.50 }] 
+  },  
+  {
     id: "three-wing-portion",
     name: "3 Wing Portion",
     category: "Finger Food",
