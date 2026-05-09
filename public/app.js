@@ -289,6 +289,17 @@ const menuItems = [
     ]
   },
   {
+    id: "seamoss",
+    name: "Original Seamoss",
+    category: "Juices",
+    type: "juice",
+    description: "Original Seamoss flavour.",
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
+    ]
+  },
+  {
     id: "pineapple-fruits-seamoss-mix",
     name: "Pineapple Seamoss Mix",
     category: "Juices",
