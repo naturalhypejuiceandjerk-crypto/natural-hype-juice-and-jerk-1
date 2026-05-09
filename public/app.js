@@ -61,21 +61,10 @@ const menuItems = [
   },
   {
     id: "fried-fish",
-    name: "Sweet Chilli Fried Fish",
-    category: "Main Meals",
-    type: "meal",
-    description: "Sweet chilli fried fish served in medium or large.",
-    options: [
-      { label: "Medium", price: 11.8 },
-      { label: "Large", price: 12.8 }
-    ]
-  },
-  {
-    id: "fried-fish-boneless",
     name: "Fried Fish (Boneless)",
     category: "Main Meals",
     type: "meal",
-    description: "Boneless fried fish meal served in two sizes.",
+    description: "Sweet chilli fried fish served in medium or large.",
     options: [
       { label: "Medium", price: 11.8 },
       { label: "Large", price: 12.8 }
