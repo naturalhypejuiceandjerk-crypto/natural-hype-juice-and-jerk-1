@@ -457,14 +457,6 @@ const menuItems = [
     options: [{ label: "Portion", price: 4.0 }]
   },
   {
-    id: "festival",
-    name: "Festival",
-    category: "Finger Food",
-    type: "snack",
-    description: "Traditional festival.",
-    options: [{ label: "Portion", price: 1.5 }]
-  },
-  {
     id: "curry-jerk-portion",
     name: "Curry Jerk Portion",
     category: "Finger Food",
