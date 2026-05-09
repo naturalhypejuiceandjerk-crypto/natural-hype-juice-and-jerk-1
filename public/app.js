@@ -251,8 +251,8 @@ const menuItems = [
     type: "juice",
     description: "House lemon seamoss mix juice.",
     options: [
-      { label: "Medium", price: 4.0 },
-      { label: "Large", price: 6.5 }
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
     ]
   },
   {
@@ -262,8 +262,8 @@ const menuItems = [
     type: "juice",
     description: "Strawberry seamoss blend.",
     options: [
-      { label: "Medium", price: 4.0 },
-      { label: "Large", price: 6.5 }
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
     ]
   },
   {
@@ -273,8 +273,8 @@ const menuItems = [
     type: "juice",
     description: "Mango seamoss blend.",
     options: [
-      { label: "Medium", price: 4.0 },
-      { label: "Large", price: 6.5 }
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
     ]
   },
   {
@@ -284,8 +284,8 @@ const menuItems = [
     type: "juice",
     description: "House seamoss berries mix.",
     options: [
-      { label: "Medium", price: 4.0 },
-      { label: "Large", price: 6.5 }
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
     ]
   },
   {
@@ -295,8 +295,8 @@ const menuItems = [
     type: "juice",
     description: "Pineapple seamoss blend.",
     options: [
-      { label: "Medium", price: 4.0 },
-      { label: "Large", price: 6.5 }
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
     ]
   },
   {
@@ -306,8 +306,8 @@ const menuItems = [
     type: "juice",
     description: "Bold house punch served medium or large.",
     options: [
-      { label: "Medium", price: 5.0 },
-      { label: "Large", price: 7.0 }
+      { label: "Small", price: 4.5 },
+      { label: "Large", price: 6.5 }
     ]
   },
   {
@@ -317,8 +317,8 @@ const menuItems = [
     type: "juice",
     description: "Rich Guinness punch.",
     options: [
-      { label: "Medium", price: 5.0 },
-      { label: "Large", price: 7.0 }
+      { label: "Small", price: 4.5 },
+      { label: "Large", price: 6.5 }
     ]
   },
   {
