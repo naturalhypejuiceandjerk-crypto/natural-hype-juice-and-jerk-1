@@ -207,8 +207,8 @@ const menuItems = [
     type: "juice",
     description: "Fresh beetroot and berries juice.",
     options: [
-      { label: "Medium", price: 4.0 },
-      { label: "Large", price: 6.5 }
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
     ]
   },
   {
@@ -218,8 +218,8 @@ const menuItems = [
     type: "juice",
     description: "Carrot, pineapple, and ginger blend.",
     options: [
-      { label: "Medium", price: 4.0 },
-      { label: "Large", price: 6.5 }
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
     ]
   },
   {
@@ -229,8 +229,8 @@ const menuItems = [
     type: "juice",
     description: "Refreshing kiwi, cucumber, and pineapple mix.",
     options: [
-      { label: "Medium", price: 4.0 },
-      { label: "Large", price: 6.5 }
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
     ]
   },
   {
@@ -240,8 +240,8 @@ const menuItems = [
     type: "juice",
     description: "Irish delicious seamoss",
     options: [
-      { label: "Medium", price: 4.0 },
-      { label: "Large", price: 6.5 }
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
       ]
   },
   {
