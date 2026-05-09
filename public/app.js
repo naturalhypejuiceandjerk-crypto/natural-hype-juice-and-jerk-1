@@ -234,6 +234,17 @@ const menuItems = [
     ]
   },
   {
+    id: "irish",
+    name: "Irish Seamoss Mix",
+    category: "Juices",
+    type: "juice",
+    description: "Irish delicious seamoss",
+    options: [
+      { label: "Medium", price: 4.0 },
+      { label: "Large", price: 6.5 }
+      ]
+  },
+  {
     id: "lemon-seamoss-mix",
     name: "Lemon Seamoss Mix",
     category: "Juices",
