@@ -488,7 +488,7 @@ const photoAssets = {
   "jerk-chicken": `${assetBase}/jerk-chicken-rice-bowl-optimized.webp`,
   "oli": `${assetBase}/oli.png`,
   "fried-chicken": `${assetBase}/fried-chicken-rice-bowl-optimized.webp`,
-  "pepper-steak": `${assetBase}/pepper-steak-optimized.webp`,
+  "pepper-steak": `${assetBase}/pepper.png`,
   "curry-goat": `${assetBase}/curry-goat-rice-bowl-optimized.webp`,
   "oxtail": `${assetBase}/oxtail.webp`,
   "irish": `${assetBase}/irish.png`,
