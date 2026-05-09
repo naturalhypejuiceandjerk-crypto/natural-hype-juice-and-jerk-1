@@ -278,17 +278,6 @@ const menuItems = [
     ]
   },
   {
-    id: "seamoss-blend-mix",
-    name: "Seamoss Berries Mix",
-    category: "Juices",
-    type: "juice",
-    description: "House seamoss berries mix.",
-    options: [
-      { label: "Small", price: 3.5 },
-      { label: "Large", price: 6.0 }
-    ]
-  },
-  {
     id: "seamoss",
     name: "Original Seamoss",
     category: "Juices",
@@ -299,6 +288,18 @@ const menuItems = [
       { label: "Large", price: 6.0 }
     ]
   },
+  {
+    id:"oli",
+    name:"Sorrel Seamoss Mix",
+    category:"Juices",
+    type:"juice",
+    description:"Jamaican Sorrel natural seamoss",
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
+    ]
+  },
+    
   {
     id: "pineapple-fruits-seamoss-mix",
     name: "Pineapple Seamoss Mix",
