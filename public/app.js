@@ -278,6 +278,17 @@ const menuItems = [
     ]
   },
   {
+    id: "carrot",
+    name: "Carrot Seamoss mix",
+    category: "Juices",
+    type:"juice",
+    description: "Delicios carrot seamoss mix.",
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
+    ]
+  },
+    {
     id: "seamoss",
     name: "Original Seamoss",
     category: "Juices",
