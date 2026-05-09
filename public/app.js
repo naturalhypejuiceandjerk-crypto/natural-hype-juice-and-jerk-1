@@ -487,7 +487,7 @@ const photoAssets = {
   "curry-goat": `${assetBase}/curry-goat-rice-bowl-optimized.webp`,
   "oxtail": `${assetBase}/oxtail.webp`,
   "irish": `${assetBase}/irish.jpeg`,
-  "seamoss": `${assetBase}/seamoss.png`,
+  "seamoss": `${assetBase}/seamoss.jpeg`,
   "barbe-fried": `${assetBase}/barbe-fried-bowl-optimized.webp`,
   "mix-match-meal-box": `${assetBase}/jerk-chicken-bowl-optimized.webp`,
   "original-jerk-chicken-salad": `${assetBase}/jerk-chicken-salad-bowl-optimized.webp`,
