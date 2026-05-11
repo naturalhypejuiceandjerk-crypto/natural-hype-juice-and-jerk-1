@@ -356,6 +356,49 @@ const menuItems = [
        { label: "Fruit punch", price: 2.30}
        ]
  },
+    {
+    id: "Rio",
+    name: "Rio",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Lightly sparkling soft drink with a tropical taste.",
+    options: [{ label: "Can", price: 1.30 }]
+  },
+      {
+    id: "luco",
+    name: "Lucozade (Orange)",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Refreshing, fizzy, and citrusy flavor.",
+    options: [{ label: "Can", price: 1.30 }]
+  },
+  {
+    id: "fanta",
+    name: "Fanta",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Fizzi drink.",
+    options: [
+      { label: "Orange", price: 1.30 },
+      { label: "Lemon", price: 1.30 }
+      ]
+  },
+        {
+    id: "coca",
+    name: "Coke",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Fizzi drink.",
+    options: [{ label: "Can", price: 1.30 }]
+  },
+   {
+    id: "beer",
+    name: "Ginger Beer",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Jamaican ginger beer (no alc).",
+    options: [{ label: "Can", price: 1.30 }]
+  },
   {
     id: "dumpling",
     name: "Dumpling",
@@ -477,6 +520,15 @@ const photoAssets = {
   "pineapple-fruits-seamoss-mix": `${assetBase}/pineapple.png`,
   "mango-seamoss-mix": `${assetBase}/mango.png`,
   "oli": `${assetBase}/oli.png`,
+  "zee": `${assetBase}/zee.jpeg`,
+  "tangoa": `${assetBase}/tangoa`,
+  "tango": `${assetBase}/tango.jpeg`,
+  "Rio": `${assetBase}/Rio.jpeg`,
+  "luco": `${assetBase}/luco.jpeg`,
+  "fanta": `${assetBase}/fanta.jpeg`,
+  "coca": `${assetBase}/coca.jpeg`,
+  "bigga": `${assetBase}/bigga.jpeg`,
+  "beer": `${assetBase}/beer.jpeg`,
   "fried-chicken": `${assetBase}/fried-chicken-rice-bowl-optimized.webp`,
   "pepper-steak": `${assetBase}/pepper.png`,
   "curry-goat": `${assetBase}/curry-goat-rice-bowl-optimized.webp`,
