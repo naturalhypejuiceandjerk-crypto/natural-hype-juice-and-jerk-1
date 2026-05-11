@@ -190,17 +190,6 @@ const menuItems = [
     ]
   },
   {
-    id: "beetroot-berries-juice",
-    name: "Beetroot Berries",
-    category: "Flavoured Water",
-    type: "drink",
-    description: "Fresh beetroot and berries juice.",
-    options: [
-      { label: "Small", price: 3.5 },
-      { label: "Large", price: 6.0 }
-    ]
-  },
-  {
     id: "irish",
     name: "Irish Seamoss Mix",
     category: "Juices",
@@ -298,6 +287,17 @@ const menuItems = [
     options: [
       { label: "Small", price: 4.5 },
       { label: "Large", price: 6.5 }
+    ]
+  },
+    {
+    id: "beetroot-berries-juice",
+    name: "Beetroot Berries",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Fresh beetroot and berries juice.",
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
     ]
   },
   {
