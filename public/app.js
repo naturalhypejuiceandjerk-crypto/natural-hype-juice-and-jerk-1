@@ -317,6 +317,46 @@ const menuItems = [
     options: [{ label: "Bottle", price: 3.5 }]
   },
   {
+    id: "zee",
+    name: "Barrie Zee",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Sorrel, Honey + Root Ginger",
+    options: [{ label: "Glass Bottle", price: 4.00 }]
+  },
+    {
+    id: "tangoa",
+    name: "Tango (Apple)",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Tango with apple flavour",
+    options: [{ label: "Can", price: 1.30 }]
+  },
+ {
+    id: "tango",
+    name: "Tango (Sugar Free)",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Soft drink",
+     options: [
+      { label: "Apple", price: 1.30 },
+      { label: "Cherry", price: 1.30 },
+       { label: "Orange", price: 1.30}
+       ]
+ },
+   {
+    id: "bigga",
+    name: "Bigga",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Jamaican drink",
+     options: [
+      { label: "Grape", price: 2.30 },
+      { label: "Pineapple", price: 2.30 },
+       { label: "Fruit punch", price: 2.30}
+       ]
+ },
+  {
     id: "dumpling",
     name: "Dumpling",
     category: "Finger Food",
