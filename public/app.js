@@ -334,14 +334,6 @@ const menuItems = [
     ]
   },
   {
-    id: "beetroot-berries-water",
-    name: "Beetroot Berries",
-    category: "Juices",
-    type: "drink",
-    description: "Flavoured water with beetroot and berries.",
-    options: [{ label: "Bottle", price: 3.5 }]
-  },
-  {
     id: "carrot-pineapple-ginger-water",
     name: "Carrot Pineapple Ginger",
     category: "Flavoured Water",
@@ -505,7 +497,6 @@ const photoAssets = {
   "strawberry-seamoss-mix": `${assetBase}/strawbery.jpeg`,
   "lemon-seamoss-mix": `${assetBase}/lemon.jpeg`,
   "pineapple-water": `${assetBase}/pineapple-carrot-ginger-optimized.webp`,
-  "beetroot-berries-water": `${assetBase}/beetroot.png`,
   "carrot-pineapple-ginger-water": `${assetBase}/pineapple-carrot-ginger-optimized.webp`,
   "kiwi-cucumber-pineapple-water": `${assetBase}/kiwi-cucumber-pineapple-optimized.webp`,
   "fried-chicken-portion": `${assetBase}/fried-chicken.jpg`,
