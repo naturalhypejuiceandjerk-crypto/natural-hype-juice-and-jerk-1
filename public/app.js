@@ -336,7 +336,7 @@ const menuItems = [
   {
     id: "beetroot-berries-water",
     name: "Beetroot Berries",
-    category: "Flavoured Water",
+    category: "Juices",
     type: "drink",
     description: "Flavoured water with beetroot and berries.",
     options: [{ label: "Bottle", price: 3.5 }]
