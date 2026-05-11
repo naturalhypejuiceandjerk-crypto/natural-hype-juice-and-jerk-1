@@ -306,7 +306,10 @@ const menuItems = [
     category: "Flavoured Water",
     type: "drink",
     description: "Flavoured water with carrot, pineapple, and ginger.",
-    options: [{ label: "Bottle", price: 3.5 }]
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
+    ]
   },
   {
     id: "kiwi-cucumber-pineapple-water",
@@ -314,7 +317,10 @@ const menuItems = [
     category: "Flavoured Water",
     type: "drink",
     description: "Crisp kiwi, cucumber, and pineapple water.",
-    options: [{ label: "Bottle", price: 3.5 }]
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
+    ]
   },
   {
     id: "zee",
