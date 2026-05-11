@@ -192,31 +192,9 @@ const menuItems = [
   {
     id: "beetroot-berries-juice",
     name: "Beetroot Berries",
-    category: "Juices",
-    type: "juice",
+    category: "Flavoured Water",
+    type: "drink",
     description: "Fresh beetroot and berries juice.",
-    options: [
-      { label: "Small", price: 3.5 },
-      { label: "Large", price: 6.0 }
-    ]
-  },
-  {
-    id: "kiwi-cucumber-pineapple-juice",
-    name: "Kiwi, Cucumber, Pineapple",
-    category: "Juices",
-    type: "juice",
-    description: "Refreshing kiwi, cucumber, and pineapple mix.",
-    options: [
-      { label: "Small", price: 3.5 },
-      { label: "Large", price: 6.0 }
-    ]
-  },
-  {
-    id: "pineapple-water",
-    name: "Pineapple, Carrot, Ginger",
-    category: "Juices",
-    type: "Flowered water",
-    description: "Pineapple, Carrot, Ginger flawered water",
     options: [
       { label: "Small", price: 3.5 },
       { label: "Large", price: 6.0 }
