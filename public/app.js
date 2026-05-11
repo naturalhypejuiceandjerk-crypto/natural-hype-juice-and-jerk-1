@@ -504,7 +504,7 @@ const photoAssets = {
   "strawberry-seamoss-mix": `${assetBase}/strawbery.jpeg`,
   "lemon-seamoss-mix": `${assetBase}/lemon.jpeg`,
   "pineapple-water": `${assetBase}/pineapple-carrot-ginger-optimized.webp`,
-  "beetroot-berries-water": `${assetBase}/beetroot-berries-optimized.webp`,
+  "beetroot-berries-water": `${assetBase}/beetroot.png`,
   "carrot-pineapple-ginger-water": `${assetBase}/pineapple-carrot-ginger-optimized.webp`,
   "kiwi-cucumber-pineapple-water": `${assetBase}/kiwi-cucumber-pineapple-optimized.webp`,
   "fried-chicken-portion": `${assetBase}/fried-chicken.jpg`,
