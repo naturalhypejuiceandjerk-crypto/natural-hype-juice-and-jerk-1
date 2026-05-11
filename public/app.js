@@ -475,6 +475,7 @@ const assetBase = window.location.protocol === "file:" ? "public/assets/menu" : 
 
 const photoAssets = {
   "jerk-chicken": `${assetBase}/jerk-chicken-rice-bowl-optimized.webp`,
+  "pineapple-fruits-seamoss-mix": `${assetBase}/pineapple.png`,
   "oli": `${assetBase}/oli.png`,
   "fried-chicken": `${assetBase}/fried-chicken-rice-bowl-optimized.webp`,
   "pepper-steak": `${assetBase}/pepper.png`,
