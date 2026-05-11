@@ -212,6 +212,17 @@ const menuItems = [
     ]
   },
   {
+    id: "pineapple-water",
+    name: "Pineapple, Carrot, Ginger",
+    category: "Juices",
+    type: "Flowered water",
+    description: "Pineapple, Carrot, Ginger flawered water",
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
+    ]
+  },
+  {
     id: "irish",
     name: "Irish Seamoss Mix",
     category: "Juices",
@@ -250,17 +261,6 @@ const menuItems = [
     category: "Juices",
     type: "juice",
     description: "Mango seamoss blend.",
-    options: [
-      { label: "Small", price: 3.5 },
-      { label: "Large", price: 6.0 }
-    ]
-  },
-  {
-    id: "carrot",
-    name: "Carrot Seamoss mix",
-    category: "Juices",
-    type:"juice",
-    description: "Delicios carrot seamoss mix.",
     options: [
       { label: "Small", price: 3.5 },
       { label: "Large", price: 6.0 }
