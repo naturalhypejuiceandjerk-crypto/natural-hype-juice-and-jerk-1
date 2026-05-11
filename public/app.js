@@ -478,14 +478,6 @@ const menuItems = [
     options: [{ label: "Portion", price: 5.0 }]
   },
   {
-    id:"jerk-chicken-split",
-    name:"Ckicken(Split)",
-    category:"Finger Food",
-    type:"snack",
-    description: "Tender grilled chicken in a warm toasted bun.",
-    options: [{ label: "Portion", price: 4.50 }] 
-  },  
-  {
     id: "three-wing-portion",
     name: "3 Wing Portion",
     category: "Finger Food",
@@ -567,7 +559,7 @@ const photoAssets = {
   "kiwi-cucumber-pineapple-water": `${assetBase}/kiwi-cucumber-pineapple-optimized.webp`,
   "fried-chicken-portion": `${assetBase}/fried-chicken.jpg`,
   "jerk-chicken-portion": `${assetBase}/jamaican-jerk-chicken.jpg`,
-  "jerk-chicken-split": `${assetBase}/jerk-chicken-split.jpg`,
+  "dumpling-split-chicken": `${assetBase}/jerk-chicken-split.jpg`,
   "honey-glazed-portion": `${assetBase}/honey-glazed-chicken.jpg`,
   "curry-jerk-portion": `${assetBase}/curry-style-chicken.jpg`
 };
