@@ -498,7 +498,7 @@ const photoAssets = {
   "curry-jerk-chicken-special": `${assetBase}/curry-style-chicken.jpg`,
   "pineapple-jerk-chicken-special": `${assetBase}/pineapple-jerk.jpg`,
   "curry-oxtail-special": `${assetBase}/curry-goat-rice-bowl-optimized.webp`,
-  "beetroot-berries-juice": `${assetBase}/beetroot-berries-optimized.webp`,
+  "beetroot-berries-juice": `${assetBase}/beetroot.png`,
   "carrot-pineapple-ginger-juice": `${assetBase}/pineapple-carrot-ginger-optimized.webp`,
   "kiwi-cucumber-pineapple-juice": `${assetBase}/kiwi-cucumber-pineapple-optimized.webp`,
   "guinness-punch": `${assetBase}/guinness-punch-optimized.webp`,
