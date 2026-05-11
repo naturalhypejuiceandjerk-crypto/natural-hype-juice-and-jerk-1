@@ -37,6 +37,14 @@ const menuItems = [
       { label: "Large", price: 12.0 }
     ]
   },
+    {
+    id: "curry-goat-salad-box",
+    name: "Curry Goat",
+    category: "Main Meals",
+    type: "salad",
+    description: "Curry goat served as a salad box option.",
+    options: [{ label: "Salad Box", price: 8.5 }]
+  },
   {
     id: "oxtail",
     name: "Oxtail",
@@ -70,6 +78,17 @@ const menuItems = [
       { label: "Large", price: 12.8 }
     ]
   },
+    {
+    id: "sweet-chilli-fried-fish",
+    name: "Sweet Chilli Fried Fish",
+    category: "Main Meals",
+    type: "meal",
+    description: "Sweet chilli fried fish served in medium or large.",
+    options: [
+      { label: "Medium", price: 11.8 },
+      { label: "Large", price: 12.8 }
+    ]
+  },
   {
     id: "escovitch-fish-bone",
     name: "Escovitch Fish (Bone)",
@@ -80,14 +99,6 @@ const menuItems = [
       { label: "Medium", price: 11.8 },
       { label: "Large", price: 12.8 }
     ]
-  },
-  {
-    id: "mix-match-meal-box",
-    name: "Mix & Match Meal Box",
-    category: "Main Meals",
-    type: "meal",
-    description: "2 meats plus rice, steam veg, pasta salad or coleslaw.",
-    options: [{ label: "Meal Box", price: 16.0 }]
   },
   {
     id: "original-jerk-chicken-salad",
@@ -112,14 +123,6 @@ const menuItems = [
     type: "salad",
     description: "Salad box finished with honey glazed chicken.",
     options: [{ label: "Salad Box", price: 9.0 }]
-  },
-  {
-    id: "curry-goat-salad-box",
-    name: "Curry Goat",
-    category: "Salad Boxes",
-    type: "salad",
-    description: "Curry goat served as a salad box option.",
-    options: [{ label: "Salad Box", price: 8.5 }]
   },
   {
     id: "boneless-fish-salad-box",
@@ -152,8 +155,8 @@ const menuItems = [
     type: "meal",
     description: "Honey glazed chicken special in medium or large.",
     options: [
-      { label: "Medium", price: 12.5 },
-      { label: "Large", price: 13.5 }
+      { label: "Medium", price: 12.0 },
+      { label: "Large", price: 12.5 }
     ]
   },
   {
@@ -163,8 +166,30 @@ const menuItems = [
     type: "meal",
     description: "Curry jerk chicken special with bold flavour.",
     options: [
-      { label: "Medium", price: 12.5 },
-      { label: "Large", price: 13.5 }
+      { label: "Medium", price: 12.0 },
+      { label: "Large", price: 12.5 }
+    ]
+  },
+    {
+    id: "pineapplejerk-chicken",
+    name: "Pineapple Jerk Chicken",
+    category: "Specials",
+    type: "meal",
+    description: "Pineapple with Jerk Chicken.",
+    options: [
+      { label: "Medium", price: 12.0 },
+      { label: "Large", price: 12.5 }
+    ]
+  },
+    {
+    id: "curryOxtail",
+    name: "Curry Oxtail",
+    category: "Specials",
+    type: "meal",
+    description: "Curry Oxtail Meal.",
+    options: [
+      { label: "Medium", price: 12.0 },
+      { label: "Large", price: 12.5 }
     ]
   },
   {
@@ -501,6 +526,14 @@ const menuItems = [
     description: "Plantain portion with 4 pieces.",
     options: [{ label: "Portion", price: 3.0 }]
   },
+    {
+    id: "PlantainPort",
+    name: "Plantain Port (4 pcs)",
+    category: "Finger Food",
+    type: "snack",
+    description: "4 pcs of Plantain port.",
+    options: [{ label: "Snack Box", price: 3.0 }]
+  },
   {
     id: "variety-snack-box",
     name: "Variety Snack Box",
@@ -509,6 +542,7 @@ const menuItems = [
     description: "2pcs chicken, chips, gravy and plantain.",
     options: [{ label: "Snack Box", price: 8.0 }]
   }
+    {
 ];
 
 const assetBase = window.location.protocol === "file:" ? "public/assets/menu" : "/assets/menu";
