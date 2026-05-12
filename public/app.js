@@ -369,7 +369,7 @@ const menuItems = [
     {
     id: "tangoa",
     name: "Tango (Apple)",
-    category: "Flavoured Water",
+    category: "Cans",
     type: "drink",
     description: "Tango with apple flavour",
     options: [{ label: "Can", price: 1.30 }]
