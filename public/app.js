@@ -109,7 +109,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Fresh salad box topped with original jerk chicken.",
-    options: [{ label: "Salad Box", price: 8.5 }]
+    options: [{ label: "Salad Box", price: 7.5 }]
   },
   {
     id: "pineapple-jerk-chicken-salad",
