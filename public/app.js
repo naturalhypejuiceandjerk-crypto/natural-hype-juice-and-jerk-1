@@ -377,7 +377,7 @@ const menuItems = [
  {
     id: "tango",
     name: "Tango (Sugar Free)",
-    category: "Flavoured Water",
+    category: "Cans",
     type: "drink",
     description: "Soft drink",
      options: [
@@ -389,7 +389,7 @@ const menuItems = [
    {
     id: "bigga",
     name: "Bigga",
-    category: "Flavoured Water",
+    category: "Cans",
     type: "drink",
     description: "Jamaican drink",
      options: [
@@ -401,7 +401,7 @@ const menuItems = [
     {
     id: "Rio",
     name: "Rio",
-    category: "Flavoured Water",
+    category: "Cans",
     type: "drink",
     description: "Lightly sparkling soft drink with a tropical taste.",
     options: [{ label: "Can", price: 1.30 }]
@@ -409,7 +409,7 @@ const menuItems = [
       {
     id: "luco",
     name: "Lucozade (Orange)",
-    category: "Flavoured Water",
+    category: "Cans",
     type: "drink",
     description: "Refreshing, fizzy, and citrusy flavor.",
     options: [{ label: "Can", price: 1.30 }]
@@ -417,7 +417,7 @@ const menuItems = [
   {
     id: "fanta",
     name: "Fanta",
-    category: "Flavoured Water",
+    category: "Cans",
     type: "drink",
     description: "Fizzi drink.",
     options: [
@@ -428,7 +428,7 @@ const menuItems = [
         {
     id: "coca",
     name: "Coke",
-    category: "Flavoured Water",
+    category: "Cans",
     type: "drink",
     description: "Fizzi drink.",
     options: [{ label: "Can", price: 1.30 }]
@@ -436,7 +436,7 @@ const menuItems = [
    {
     id: "beer",
     name: "Ginger Beer",
-    category: "Flavoured Water",
+    category: "Cans",
     type: "drink",
     description: "Jamaican ginger beer (no alc).",
     options: [{ label: "Can", price: 1.30 }]
