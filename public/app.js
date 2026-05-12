@@ -127,6 +127,30 @@ const menuItems = [
     description: "Salad box finished with honey glazed chicken.",
     options: [{ label: "Salad Box", price: 7.0 }]
   },
+    {
+    id: "FriedChicken",
+    name: "Fried Chicken",
+    category: "Salad Boxes",
+    type: "salad",
+    description: "Salad box finished with Fried Chicken.",
+    options: [{ label: "Salad Box", price: 7.0 }]
+  },
+    {
+    id: "PepperSteak",
+    name: "Pepper Steak",
+    category: "Salad Boxes",
+    type: "salad",
+    description: "Salad box finished with Pepper Steak.",
+    options: [{ label: "Salad Box", price: 7.0 }]
+  },
+    {
+    id: "Currygoat",
+    name: "Curry Goat",
+    category: "Salad Boxes",
+    type: "salad",
+    description: "Salad box finished with Curry Goat.",
+    options: [{ label: "Salad Box", price: 7.0 }]
+  },
   {
     id: "boneless-fish-salad-box",
     name: "Boneless Fish (Plain/Sweet Chilli)",
