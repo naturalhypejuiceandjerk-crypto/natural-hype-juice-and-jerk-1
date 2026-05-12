@@ -217,8 +217,8 @@ const menuItems = [
     {
     id: "beetroot-berries-juice",
     name: "Beetroot Berries",
-    category: "Flavoured Water",
-    type: "drink",
+    category: "Juices",
+    type: "juice",
     description: "Fresh beetroot and berries juice.",
     options: [
       { label: "Small", price: 3.5 },
@@ -228,8 +228,8 @@ const menuItems = [
   {
     id: "carrot-pineapple-ginger-water",
     name: "Carrot Pineapple Ginger",
-    category: "Flavoured Water",
-    type: "drink",
+    category: "Juices",
+    type: "juice",
     description: "Flavoured water with carrot, pineapple, and ginger.",
     options: [
       { label: "Small", price: 3.5 },
@@ -239,8 +239,8 @@ const menuItems = [
   {
     id: "kiwi-cucumber-pineapple-water",
     name: "Kiwi Cucumber Pineapple",
-    category: "Flavoured Water",
-    type: "drink",
+    category: "Juices",
+    type: "juice",
     description: "Crisp kiwi, cucumber, and pineapple water.",
     options: [
       { label: "Small", price: 3.5 },
