@@ -109,7 +109,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Fresh salad box topped with original jerk chicken.",
-    options: [{ label: "Salad Box", price: 8.5 }]
+    options: [{ label: "Salad Box", price: 7,0 }]
   },
   {
     id: "pineapple-jerk-chicken-salad",
@@ -117,7 +117,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Salad box with pineapple jerk chicken.",
-    options: [{ label: "Salad Box", price: 9.0 }]
+    options: [{ label: "Salad Box", price: 7,0 }]
   },
   {
     id: "honey-glazed-chicken-salad",
@@ -125,7 +125,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Salad box finished with honey glazed chicken.",
-    options: [{ label: "Salad Box", price: 9.0 }]
+    options: [{ label: "Salad Box", price: 7,0 }]
   },
   {
     id: "boneless-fish-salad-box",
@@ -133,7 +133,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Boneless fish salad box, plain or sweet chilli.",
-    options: [{ label: "Salad Box", price: 10.0 }]
+    options: [{ label: "Salad Box", price: 7,5 }]
   },
   {
     id: "barbe-fried-chicken-salad-box",
@@ -141,7 +141,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Barbe fried chicken served as a salad box.",
-    options: [{ label: "Salad Box", price: 9.0 }]
+    options: [{ label: "Salad Box", price: 7,0 }]
   },
   {
     id: "meat-free-salad-box",
@@ -149,7 +149,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Meat-free salad box option.",
-    options: [{ label: "Salad Box", price: 8.5 }]
+    options: [{ label: "Salad Box", price: 7.5 }]
   },
   {
     id: "honey-glazed-chicken-special",
@@ -592,7 +592,6 @@ const photoAssets = {
   "fried-chicken-salad-box": `${assetBase}/fried-chicken-salad-bowl-optimized.webp`,
   "pepper-steak-salad-box": `${assetBase}/pepper-steak-optimized.webp`,
   "curry-goat-salad-box": `${assetBase}/curry-goat.jpg`,
-  "barbe-fried-chicken-salad-box": `${assetBase}/barbe-fried-bowl-optimized.webp`,
   "honey-glazed-chicken-special": `${assetBase}/honey-glazed-chicken.jpg`,
   "curry-jerk-chicken-special": `${assetBase}/curry-style-chicken.jpg`,
   "pineapple-jerk-chicken-special": `${assetBase}/pineapple-jerk.jpg`,
