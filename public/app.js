@@ -579,14 +579,6 @@ const menuItems = [
     description: "4 pcs of Plantain port.",
     options: [{ label: "Snack Box", price: 3.0 }]
   },
-  {
-    id: "variety-snack-box",
-    name: "Variety Snack Box",
-    category: "Finger Food",
-    type: "snack",
-    description: "2pcs chicken, chips, gravy and plantain.",
-    options: [{ label: "Snack Box", price: 8.0 }]
-  }
 ];
 
 const assetBase = window.location.protocol === "file:" ? "public/assets/menu" : "/assets/menu";
