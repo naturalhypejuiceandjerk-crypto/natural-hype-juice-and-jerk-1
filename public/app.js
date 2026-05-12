@@ -250,8 +250,8 @@ const menuItems = [
     {
     id: "zee",
     name: "Barrie Zee",
-    category: "Flavoured Water",
-    type: "drink",
+    category: "Juices",
+    type: "juice",
     description: "Sorrel, Honey + Root Ginger",
     options: [{ label: "Glass Bottle", price: 4.00 }]
   },
