@@ -563,14 +563,6 @@ const menuItems = [
     description: "Curry jerk portion.",
     options: [{ label: "Portion", price: 6.0 }]
   },
-  {
-    id: "plantain-portion",
-    name: "Plantain Port 4pcs",
-    category: "Finger Food",
-    type: "snack",
-    description: "Plantain portion with 4 pieces.",
-    options: [{ label: "Portion", price: 3.0 }]
-  },
     {
     id: "PlantainPort",
     name: "Plantain Port (4 pcs)",
