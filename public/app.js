@@ -226,8 +226,8 @@ const menuItems = [
     type: "soup",
     description: "Comforting red pease soup served hot.",
     options: [
-      { label: "Medium", price: 6.0 },
-      { label: "Large", price: 7.0 }
+      { label: "Small", price: 5.0 },
+      { label: "Large", price: 6.0 }
     ]
   },
   {
@@ -237,8 +237,8 @@ const menuItems = [
     type: "soup",
     description: "Traditional chicken soup made fresh and warming.",
     options: [
-      { label: "Medium", price: 5.5 },
-      { label: "Large", price: 6.5 }
+      { label: "Small", price: 4.5 },
+      { label: "Large", price: 5.5 }
     ]
   },
     {
@@ -513,7 +513,7 @@ const menuItems = [
     category: "Finger Food",
     type: "snack",
     description: "Vegetarian dumpling split option.",
-    options: [{ label: "Portion", price: 5.0 }]
+    options: [{ label: "Portion", price: 3.0 }]
   },
   {
     id: "dumpling-split-ackee-saltfish",
@@ -546,6 +546,14 @@ const menuItems = [
     type: "snack",
     description: "3 wing portion, jerk or plain wings.",
     options: [{ label: "Portion", price: 4.0 }]
+  },
+    {
+    id: "Festival",
+    name: "Festival",
+    category: "Finger Food",
+    type: "snack",
+    description: "Sweet and fried dumpling.",
+    options: [{ label: "Portion", price: 1.5 }]
   },
   {
     id: "curry-jerk-portion",
