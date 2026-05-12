@@ -247,6 +247,14 @@ const menuItems = [
       { label: "Large", price: 6.0 }
     ]
   },
+    {
+    id: "zee",
+    name: "Barrie Zee",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Sorrel, Honey + Root Ginger",
+    options: [{ label: "Glass Bottle", price: 4.00 }]
+  },
   {
     id: "irish",
     name: "Irish Seamoss Mix",
@@ -357,14 +365,6 @@ const menuItems = [
       { label: "Small", price: 4.5 },
       { label: "Large", price: 6.5 }
     ]
-  },
-  {
-    id: "zee",
-    name: "Barrie Zee",
-    category: "Flavoured Water",
-    type: "drink",
-    description: "Sorrel, Honey + Root Ginger",
-    options: [{ label: "Glass Bottle", price: 4.00 }]
   },
     {
     id: "tangoa",
