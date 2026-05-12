@@ -214,6 +214,39 @@ const menuItems = [
       { label: "Large", price: 6.5 }
     ]
   },
+    {
+    id: "beetroot-berries-juice",
+    name: "Beetroot Berries",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Fresh beetroot and berries juice.",
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
+    ]
+  },
+  {
+    id: "carrot-pineapple-ginger-water",
+    name: "Carrot Pineapple Ginger",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Flavoured water with carrot, pineapple, and ginger.",
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
+    ]
+  },
+  {
+    id: "kiwi-cucumber-pineapple-water",
+    name: "Kiwi Cucumber Pineapple",
+    category: "Flavoured Water",
+    type: "drink",
+    description: "Crisp kiwi, cucumber, and pineapple water.",
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
+    ]
+  },
   {
     id: "irish",
     name: "Irish Seamoss Mix",
@@ -323,39 +356,6 @@ const menuItems = [
     options: [
       { label: "Small", price: 4.5 },
       { label: "Large", price: 6.5 }
-    ]
-  },
-    {
-    id: "beetroot-berries-juice",
-    name: "Beetroot Berries",
-    category: "Flavoured Water",
-    type: "drink",
-    description: "Fresh beetroot and berries juice.",
-    options: [
-      { label: "Small", price: 3.5 },
-      { label: "Large", price: 6.0 }
-    ]
-  },
-  {
-    id: "carrot-pineapple-ginger-water",
-    name: "Carrot Pineapple Ginger",
-    category: "Flavoured Water",
-    type: "drink",
-    description: "Flavoured water with carrot, pineapple, and ginger.",
-    options: [
-      { label: "Small", price: 3.5 },
-      { label: "Large", price: 6.0 }
-    ]
-  },
-  {
-    id: "kiwi-cucumber-pineapple-water",
-    name: "Kiwi Cucumber Pineapple",
-    category: "Flavoured Water",
-    type: "drink",
-    description: "Crisp kiwi, cucumber, and pineapple water.",
-    options: [
-      { label: "Small", price: 3.5 },
-      { label: "Large", price: 6.0 }
     ]
   },
   {
