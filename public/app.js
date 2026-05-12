@@ -41,9 +41,12 @@ const menuItems = [
     id: "curry-goat-salad-box",
     name: "Curry Goat",
     category: "Main Meals",
-    type: "salad",
+    type: "meal",
     description: "Curry goat served as a salad box option.",
-    options: [{ label: "Salad Box", price: 8.5 }]
+    options: [
+      { label: "Medium", price: 11.70 },
+      { label: "Large", price: 12.70 }
+    ]
   },
   {
     id: "oxtail",
