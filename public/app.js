@@ -292,6 +292,17 @@ const menuItems = [
       { label: "Large", price: 6.0 }
     ]
   },
+    {
+    id: "berryMix",
+    name: "Berry Seamoss",
+    category: "Juices",
+    type: "juice",
+    description: "Seamoss with Berry flavour.",
+    options: [
+      { label: "Small", price: 3.5 },
+      { label: "Large", price: 6.0 }
+    ]
+  },
   {
     id: "magnum-punch",
     name: "Magnum Punch",
