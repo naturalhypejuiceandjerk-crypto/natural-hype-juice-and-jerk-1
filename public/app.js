@@ -554,7 +554,7 @@ const menuItems = [
     type: "snack",
     description: "2pcs chicken, chips, gravy and plantain.",
     options: [{ label: "Snack Box", price: 8.0 }]
-  },
+  }
 ];
 
 const assetBase = window.location.protocol === "file:" ? "public/assets/menu" : "/assets/menu";
