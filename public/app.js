@@ -323,8 +323,7 @@ const menuItems = [
       { label: "Small", price: 3.5 },
       { label: "Large", price: 6.0 }
     ]
-  },
-    
+  }, 
   {
     id: "pineapple-fruits-seamoss-mix",
     name: "Pineapple Seamoss Mix",
