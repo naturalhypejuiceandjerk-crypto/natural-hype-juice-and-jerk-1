@@ -583,6 +583,8 @@ const photoAssets = {
   "zee": `${assetBase}/zee.jpeg`,
   "FriedChicken": `${assetBase}/SBfriedC.png`,
   "PepperSteak": `${assetBase}/SBPP.png`,
+  "Currygoat": `${assetBase}/SBCurry.png`,
+  "boneless-fish-salad-box": `${assetBase}/SBfish.png`,
   "tangoa": `${assetBase}/tangoa.jpeg`,
   "tango": `${assetBase}/tango.jpeg`,
   "Rio": `${assetBase}/Rio.jpeg`,
