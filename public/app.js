@@ -564,6 +564,14 @@ const menuItems = [
     options: [{ label: "Portion", price: 6.0 }]
   },
     {
+    id: "frCK",
+    name: "Fried Chicken",
+    category: "Finger Food",
+    type: "snack",
+    description: "Just a portion of Fried Chicken.",
+    options: [{ label: "Snack Box", price: 4.0 }]
+  },
+    {
     id: "PlantainPort",
     name: "Plantain Port (4 pcs)",
     category: "Finger Food",
@@ -585,6 +593,7 @@ const photoAssets = {
   "PepperSteak": `${assetBase}/SBPP.png`,
   "Currygoat": `${assetBase}/SBCurry.png`,
   "boneless-fish-salad-box": `${assetBase}/SBfish.png`,
+  "frCK": `${assetBase}/FRchicken.png`,
   "tangoa": `${assetBase}/tangoa.jpeg`,
   "tango": `${assetBase}/tango.jpeg`,
   "Rio": `${assetBase}/Rio.jpeg`,
