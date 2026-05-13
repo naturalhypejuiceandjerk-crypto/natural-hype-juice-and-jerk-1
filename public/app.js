@@ -581,6 +581,8 @@ const photoAssets = {
   "mango-seamoss-mix": `${assetBase}/mango.png`,
   "oli": `${assetBase}/oli.png`,
   "zee": `${assetBase}/zee.jpeg`,
+  "FriedChicken": `${assetBase}/SBfriedC.png`,
+  "PepperSteak": `${assetBase}/SBPP.png`,
   "tangoa": `${assetBase}/tangoa.jpeg`,
   "tango": `${assetBase}/tango.jpeg`,
   "Rio": `${assetBase}/Rio.jpeg`,
