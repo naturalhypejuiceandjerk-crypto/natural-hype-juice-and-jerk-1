@@ -599,7 +599,7 @@ const photoAssets = {
   "dumpling": `${assetBase}/dm.jpeg`,
   "barbe-fried-chicken-salad-box": `${assetBase}/bf.jpeg`,
   
-  "FriedChicken": `${assetBase}/SBfriedC.png`,
+  "FriedChicken": `${assetBase}/SBfriedC.jpeg`,
   "PepperSteak": `${assetBase}/SBPP.png`,
   "Currygoat": `${assetBase}/SBCurry.png`,
   "boneless-fish-salad-box": `${assetBase}/SBfish.png`,
