@@ -630,7 +630,7 @@ const photoAssets = {
   "honey-glazed-chicken-salad": `${assetBase}/honney.jpeg`,
   "fried-chicken-salad-box": `${assetBase}/fried-chicken-salad-bowl-optimized.webp`,
   "pepper-steak-salad-box": `${assetBase}/pepper-steak-optimized.webp`,
-  "curry-goat-salad-box": `${assetBase}/curry-goat.jpg`,
+  "curry-goat-salad-box": `${assetBase}/CurryGoatD.jpeg`,
   "honey-glazed-chicken-special": `${assetBase}/HoneyGlazeD.jpeg`,
   "curry-jerk-chicken-special": `${assetBase}/curry-style-chicken.jpg`,
   "pineapple-jerk-chicken-special": `${assetBase}/pineapple-jerk.jpg`,
