@@ -623,7 +623,7 @@ const photoAssets = {
   "chicken-soup": `${assetBase}/chicken.png`,
   "three-wing-portion": `${assetBase}/wing.png`,
   "seamoss": `${assetBase}/seamoss.jpeg`,
-  "barbe-fried": `${assetBase}/barbe-fried-bowl-optimized.webp`,
+  "barbe-fried": `${assetBase}/BarbeFryD.jpeg`,
   "mix-match-meal-box": `${assetBase}/jerk-chicken-bowl-optimized.webp`,
   "original-jerk-chicken-salad": `${assetBase}/jerk-chicken-salad-bowl-optimized.jpeg`,
   "pineapple-jerk-chicken-salad": `${assetBase}/pineapple-jerk.jpeg`,
