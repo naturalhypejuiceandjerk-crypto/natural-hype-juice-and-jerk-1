@@ -636,7 +636,10 @@ const photoAssets = {
   "fried-chicken-wrap": `${assetBase}/fried-chicken.jpg`,
   "ackee-saltfish": `${assetBase}/caribbean-chicken.jpg`,
   cabbage: `${assetBase}/caribbean-chicken.jpg`,
-  callaloo: `${assetBase}/caribbean-chicken.jpg`
+  callaloo: `${assetBase}/caribbean-chicken.jpg`,
+  "dumpling-split-veggie": `${assetBase}/dumpling-split-veggie.png`,
+  "PlantainPort": `${assetBase}/plantain-portion-4pcs.png`,
+  "plantain-portion": `${assetBase}/plantain-portion-4pcs.png`
 };
 
 const sauceOptions = [

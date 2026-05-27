@@ -648,6 +648,8 @@ const photoAssets = {
   "fried-chicken-portion": `${assetBase}/fried-chicken.jpg`,
   "jerk-chicken-portion": `${assetBase}/jamaican-jerk-chicken.jpg`,
   "dumpling-split-chicken": `${assetBase}/jerk-chicken-split.jpeg`,
+  "dumpling-split-veggie": `${assetBase}/dumpling-split-veggie.png`,
+  "PlantainPort": `${assetBase}/plantain-portion-4pcs.png`,
   "honey-glazed-portion": `${assetBase}/honey-glazed-chicken.jpg`,
   "curry-jerk-portion": `${assetBase}/curry-style-chicken.jpg`
 };
