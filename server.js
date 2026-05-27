@@ -40,6 +40,10 @@ const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || "";
 const MAIL_FROM = process.env.MAIL_FROM || "Natural Hype Orders <onboarding@resend.dev>";
+const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID || "";
+const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN || "";
+const TWILIO_FROM_NUMBER = process.env.TWILIO_FROM_NUMBER || "";
+const BUSINESS_PHONE_NUMBER = process.env.BUSINESS_PHONE_NUMBER || "";
 const PUBLIC_DIR = path.join(__dirname, "public");
 const DATA_DIR = path.join(__dirname, "data");
 const FULFILLED_ORDERS_FILE = path.join(DATA_DIR, "fulfilled-orders.json");
@@ -143,6 +147,12 @@ function clampText(value, limit = 180) {
     .slice(0, limit);
 }
 
+function createOrderId() {
+  const datePart = new Date().toISOString().slice(2, 10).replace(/-/g, "");
+  const randomPart = crypto.randomBytes(2).toString("hex").toUpperCase();
+  return `NH-${datePart}-${randomPart}`;
+}
+
 function escapeHtml(value) {
   return String(value || "")
     .replace(/&/g, "&amp;")
@@ -243,6 +253,8 @@ function buildRestaurantEmail(session, lineItems) {
   const metadata = session.metadata || {};
   const customerDetails = session.customer_details || {};
   const amountTotal = typeof session.amount_total === "number" ? (session.amount_total / 100).toFixed(2) : "0.00";
+  const orderId = metadata.order_id || session.client_reference_id || createOrderId();
+  const paymentMethod = metadata.payment_method === "cash" ? "Cash on collection" : "Card online";
   const paymentReference = session.id ? session.id.replace(/^cs_(test|live)_/, "") : "Not provided";
 
   const itemsMarkup = lineItems
@@ -254,11 +266,18 @@ function buildRestaurantEmail(session, lineItems) {
     })
     .join("");
 
-  const subject = `New paid order - ${metadata.customer_name || customerDetails.name || "Natural Hype customer"}`;
+  const subject = `New order ${orderId} - ${metadata.customer_name || customerDetails.name || "Natural Hype customer"}`;
   const html = `
     <div style="font-family: Arial, sans-serif; color: #1d321f; line-height: 1.6;">
-      <h1 style="margin-bottom: 8px;">New paid order received</h1>
-      <p style="margin-top: 0;">A customer has completed payment for a Natural Hype Juice and Jerk order.</p>
+      <h1 style="margin-bottom: 8px;">New order received</h1>
+      <p style="margin-top: 0;">A customer has placed a Natural Hype Juice and Jerk order.</p>
+      <h2 style="margin-bottom: 8px;">Order</h2>
+      <p>
+        <strong>Order ID:</strong> ${escapeHtml(orderId)}<br />
+        <strong>Payment:</strong> ${escapeHtml(paymentMethod)}<br />
+        <strong>Total:</strong> GBP ${escapeHtml(amountTotal)}<br />
+        <strong>Payment reference:</strong> ${escapeHtml(paymentReference)}
+      </p>
       <h2 style="margin-bottom: 8px;">Customer</h2>
       <p>
         <strong>Name:</strong> ${escapeHtml(metadata.customer_name || customerDetails.name || "Not provided")}<br />
@@ -270,9 +289,7 @@ function buildRestaurantEmail(session, lineItems) {
         <strong>Service:</strong> ${escapeHtml(metadata.service_mode || "Not provided")}<br />
         <strong>Requested time:</strong> ${escapeHtml(metadata.desired_time || "Not provided")}<br />
         <strong>Address:</strong> ${escapeHtml(metadata.address || "Not provided")}<br />
-        <strong>Notes:</strong> ${escapeHtml(metadata.notes || "None")}<br />
-        <strong>Total paid:</strong> GBP ${escapeHtml(amountTotal)}<br />
-        <strong>Payment reference:</strong> ${escapeHtml(paymentReference)}
+        <strong>Notes:</strong> ${escapeHtml(metadata.notes || "None")}
       </p>
       <h2 style="margin-bottom: 8px;">Items</h2>
       <ul>${itemsMarkup || "<li>No items returned from the payment provider.</li>"}</ul>
@@ -280,6 +297,74 @@ function buildRestaurantEmail(session, lineItems) {
   `;
 
   return { subject, html };
+}
+
+function formatOrderLineItems(lineItems) {
+  return lineItems
+    .map((item) => {
+      const quantity = item.quantity || 1;
+      const description = clampText(item.description || "Menu item", 90);
+      const total = typeof item.amount_total === "number" ? (item.amount_total / 100).toFixed(2) : "0.00";
+      return `${quantity} x ${description} - GBP ${total}`;
+    })
+    .join("\n");
+}
+
+function buildBusinessMessage(session, lineItems) {
+  const metadata = session.metadata || {};
+  const customerDetails = session.customer_details || {};
+  const orderId = metadata.order_id || session.client_reference_id || "NH-ORDER";
+  const amountTotal = typeof session.amount_total === "number" ? (session.amount_total / 100).toFixed(2) : "0.00";
+  const paymentMethod = metadata.payment_method === "cash" ? "Cash on collection" : "Card online";
+  const itemsText = formatOrderLineItems(lineItems) || "No items returned.";
+
+  return [
+    `New Natural Hype order ${orderId}`,
+    `Name: ${metadata.customer_name || customerDetails.name || "Not provided"}`,
+    `Phone: ${metadata.phone || customerDetails.phone || "Not provided"}`,
+    `Email: ${customerDetails.email || "Not provided"}`,
+    `Payment: ${paymentMethod}`,
+    `Time: ${metadata.desired_time || "Not provided"}`,
+    `Service: ${metadata.service_mode || "Not provided"}`,
+    `Notes: ${metadata.notes || "None"}`,
+    `Total: GBP ${amountTotal}`,
+    "Items:",
+    itemsText
+  ].join("\n");
+}
+
+async function sendBusinessMessage(session, lineItems) {
+  if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_FROM_NUMBER || !BUSINESS_PHONE_NUMBER) {
+    return null;
+  }
+
+  const body = new URLSearchParams({
+    To: BUSINESS_PHONE_NUMBER,
+    From: TWILIO_FROM_NUMBER,
+    Body: buildBusinessMessage(session, lineItems)
+  });
+
+  const auth = Buffer.from(`${TWILIO_ACCOUNT_SID}:${TWILIO_AUTH_TOKEN}`).toString("base64");
+  const response = await fetch(
+    `https://api.twilio.com/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Messages.json`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${auth}`,
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    const message = data && data.message ? data.message : "Business phone alert could not be sent.";
+    throw new Error(message);
+  }
+
+  return data;
 }
 
 async function sendRestaurantEmail(session, lineItems) {
@@ -330,6 +415,11 @@ async function handleSuccessfulCheckout(session) {
 
   const lineItems = await fetchCheckoutLineItems(session.id);
   await sendRestaurantEmail(session, lineItems);
+  try {
+    await sendBusinessMessage(session, lineItems);
+  } catch (error) {
+    console.error("Business phone alert failed:", error.message);
+  }
   markOrderFulfilled(session.id, {
     email: RESTAURANT_EMAIL
   });
@@ -337,7 +427,9 @@ async function handleSuccessfulCheckout(session) {
 
 function buildStripeParams(payload, origin) {
   const params = new URLSearchParams();
-  const { cartItems = [], customer = {}, service = {} } = payload;
+  const { cartItems = [], customer = {}, service = {}, payment = {} } = payload;
+  const orderId = createOrderId();
+  const customerName = clampText(customer.name, 80);
   const lineItems = [];
 
   cartItems.forEach((item) => {
@@ -376,8 +468,12 @@ function buildStripeParams(payload, origin) {
   }
 
   params.set("mode", "payment");
-  params.set("success_url", `${origin}/?checkout=success`);
-  params.set("cancel_url", `${origin}/?checkout=cancelled`);
+  params.set("client_reference_id", orderId);
+  params.set(
+    "success_url",
+    `${origin}/order-confirmation.html?order=${encodeURIComponent(orderId)}&name=${encodeURIComponent(customerName)}&payment=card`
+  );
+  params.set("cancel_url", `${origin}/checkout.html?checkout=cancelled`);
   params.set("billing_address_collection", "required");
   params.set("phone_number_collection[enabled]", "true");
   params.set("allow_promotion_codes", "true");
@@ -394,18 +490,87 @@ function buildStripeParams(payload, origin) {
     params.set(`line_items[${index}][price_data][product_data][name]`, label);
   });
 
-  params.set("metadata[customer_name]", clampText(customer.name, 80));
+  params.set("metadata[order_id]", orderId);
+  params.set("metadata[customer_name]", customerName);
   params.set("metadata[phone]", clampText(customer.phone, 40));
+  params.set("metadata[payment_method]", clampText(payment.method || "card", 20));
   params.set("metadata[service_mode]", clampText(service.mode, 20));
   params.set("metadata[desired_time]", clampText(service.desiredTime, 40));
   params.set("metadata[address]", clampText(service.address, 120));
   params.set("metadata[notes]", clampText(service.notes, 120));
 
-  return params;
+  return { params, orderId, customerName };
+}
+
+function buildCashOrderSession(payload) {
+  const { cartItems = [], customer = {}, service = {}, payment = {} } = payload;
+  const orderId = createOrderId();
+  const lineItems = [];
+  let amountTotal = 0;
+
+  cartItems.forEach((item) => {
+    const quantity = Math.max(1, Number(item.quantity || 1));
+    const price = Number(item.price || 0);
+
+    if (!item.name || !Number.isFinite(price) || price <= 0) {
+      return;
+    }
+
+    const riceLabel = typeof item.rice === "string" ? item.rice : "";
+    const label = [item.name, item.optionLabel || "", riceLabel].filter(Boolean).join(" - ");
+    const amount = formatAmount(price) * quantity;
+    amountTotal += amount;
+
+    lineItems.push({
+      quantity,
+      description: clampText(label, 120),
+      amount_total: amount
+    });
+  });
+
+  const serviceFee = Number(service.fee || 0);
+  if (Number.isFinite(serviceFee) && serviceFee > 0) {
+    const amount = formatAmount(serviceFee);
+    amountTotal += amount;
+    lineItems.push({
+      quantity: 1,
+      description: `${clampText(service.mode || "Service", 20)} fee`,
+      amount_total: amount
+    });
+  }
+
+  if (!lineItems.length) {
+    throw new Error("Cart is empty");
+  }
+
+  return {
+    orderId,
+    lineItems,
+    session: {
+      id: "",
+      client_reference_id: orderId,
+      amount_total: amountTotal,
+      metadata: {
+        order_id: orderId,
+        customer_name: clampText(customer.name, 80),
+        phone: clampText(customer.phone, 40),
+        payment_method: clampText(payment.method || "cash", 20),
+        service_mode: clampText(service.mode, 20),
+        desired_time: clampText(service.desiredTime, 40),
+        address: clampText(service.address, 120),
+        notes: clampText(service.notes, 120)
+      },
+      customer_details: {
+        email: clampText(customer.email, 80),
+        phone: clampText(customer.phone, 40),
+        name: clampText(customer.name, 80)
+      }
+    }
+  };
 }
 
 async function createStripeCheckoutSession(payload, origin) {
-  const params = buildStripeParams(payload, origin);
+  const { params, orderId, customerName } = buildStripeParams(payload, origin);
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
     headers: {
@@ -421,7 +586,11 @@ async function createStripeCheckoutSession(payload, origin) {
     throw new Error("Payment checkout could not be created.");
   }
 
-  return data;
+  return {
+    ...data,
+    orderId,
+    customerName
+  };
 }
 
 const server = http.createServer(async (request, response) => {
@@ -446,7 +615,8 @@ const server = http.createServer(async (request, response) => {
       ok: true,
       stripeEnabled: Boolean(STRIPE_SECRET_KEY),
       webhookReady: Boolean(STRIPE_WEBHOOK_SECRET),
-      emailReady: Boolean(RESEND_API_KEY && RESTAURANT_EMAIL)
+      emailReady: Boolean(RESEND_API_KEY && RESTAURANT_EMAIL),
+      phoneAlertReady: Boolean(TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_FROM_NUMBER && BUSINESS_PHONE_NUMBER)
     });
     return;
   }
@@ -488,11 +658,42 @@ const server = http.createServer(async (request, response) => {
       sendJson(response, 200, {
         mode: "stripe",
         url: session.url,
-        id: session.id
+        id: session.id,
+        orderId: session.orderId,
+        customerName: session.customerName
       });
     } catch (error) {
       sendJson(response, 400, {
         error: error.message || "Checkout request failed."
+      });
+    }
+    return;
+  }
+
+  if (request.method === "POST" && parsedUrl.pathname === "/api/cash-order") {
+    try {
+      const payload = await parseBody(request);
+      const cashOrder = buildCashOrderSession(payload);
+
+      await sendRestaurantEmail(cashOrder.session, cashOrder.lineItems);
+      try {
+        await sendBusinessMessage(cashOrder.session, cashOrder.lineItems);
+      } catch (error) {
+        console.error("Business phone alert failed:", error.message);
+      }
+      markOrderFulfilled(cashOrder.orderId, {
+        email: RESTAURANT_EMAIL,
+        paymentMethod: "cash"
+      });
+
+      sendJson(response, 200, {
+        mode: "cash",
+        orderId: cashOrder.orderId,
+        customerName: cashOrder.session.metadata.customer_name
+      });
+    } catch (error) {
+      sendJson(response, 400, {
+        error: error.message || "Cash order could not be sent."
       });
     }
     return;

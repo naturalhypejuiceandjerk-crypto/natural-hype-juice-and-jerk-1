@@ -108,6 +108,25 @@ Typical deploy flow:
 7. If you want paid-order emails, add `RESEND_API_KEY` and use a valid `MAIL_FROM` sender.
 8. Deploy and place a real payment test on the live site.
 
+## Business phone order alerts
+
+The app can also send the order ticket to the business phone for both card and cash orders.
+
+Add these Render environment variables:
+
+- `TWILIO_ACCOUNT_SID`
+- `TWILIO_AUTH_TOKEN`
+- `TWILIO_FROM_NUMBER`
+- `BUSINESS_PHONE_NUMBER`
+
+Use the business number in international format, for example:
+
+```text
+447498574490
+```
+
+The alert includes the ticket number, customer name, customer phone, payment method, collection time, notes, total, and food purchased.
+
 ## Pre-launch check
 
 After deployment, open:
