@@ -44,9 +44,12 @@ const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID || "";
 const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN || "";
 const TWILIO_FROM_NUMBER = process.env.TWILIO_FROM_NUMBER || "";
 const BUSINESS_PHONE_NUMBER = process.env.BUSINESS_PHONE_NUMBER || "";
+const ADMIN_PIN = process.env.ADMIN_PIN || "";
 const PUBLIC_DIR = path.join(__dirname, "public");
 const DATA_DIR = path.join(__dirname, "data");
 const FULFILLED_ORDERS_FILE = path.join(DATA_DIR, "fulfilled-orders.json");
+const ORDER_RECORDS_FILE = path.join(DATA_DIR, "orders.json");
+const ADMIN_COOKIE_NAME = "nh_owner_session";
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -67,6 +70,14 @@ function sendJson(response, statusCode, payload) {
     "Cache-Control": "no-store"
   });
   response.end(JSON.stringify(payload));
+}
+
+function sendRedirect(response, location) {
+  response.writeHead(302, {
+    Location: location,
+    "Cache-Control": "no-store"
+  });
+  response.end();
 }
 
 function sendFile(response, filePath) {
@@ -147,9 +158,25 @@ function clampText(value, limit = 180) {
     .slice(0, limit);
 }
 
+function parseCookies(cookieHeader = "") {
+  return cookieHeader.split(";").reduce((cookies, entry) => {
+    const separatorIndex = entry.indexOf("=");
+    if (separatorIndex === -1) {
+      return cookies;
+    }
+
+    const key = entry.slice(0, separatorIndex).trim();
+    const value = entry.slice(separatorIndex + 1).trim();
+    if (key) {
+      cookies[key] = decodeURIComponent(value);
+    }
+    return cookies;
+  }, {});
+}
+
 function createOrderId() {
   const datePart = new Date().toISOString().slice(2, 10).replace(/-/g, "");
-  const randomPart = crypto.randomBytes(2).toString("hex").toUpperCase();
+  const randomPart = crypto.randomBytes(6).toString("hex").toUpperCase();
   return `NH-${datePart}-${randomPart}`;
 }
 
@@ -193,6 +220,116 @@ function markOrderFulfilled(sessionId, metadata = {}) {
 function hasOrderBeenFulfilled(sessionId) {
   const fulfilled = readFulfilledOrders();
   return Boolean(fulfilled[sessionId]);
+}
+
+function readOrderRecords() {
+  ensureDataDir();
+  if (!fs.existsSync(ORDER_RECORDS_FILE)) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(fs.readFileSync(ORDER_RECORDS_FILE, "utf8"));
+  } catch (error) {
+    return {};
+  }
+}
+
+function saveOrderRecord(orderId, order) {
+  const orders = readOrderRecords();
+  const existing = orders[orderId] || {};
+  orders[orderId] = {
+    ...existing,
+    ...order,
+    orderId,
+    updatedAt: new Date().toISOString()
+  };
+  fs.writeFileSync(ORDER_RECORDS_FILE, JSON.stringify(orders, null, 2));
+  return orders[orderId];
+}
+
+function getOrderRecord(orderId) {
+  const cleanOrderId = clampText(orderId, 40);
+  if (!cleanOrderId) {
+    return null;
+  }
+
+  return readOrderRecords()[cleanOrderId] || null;
+}
+
+function listOrderRecords() {
+  return Object.values(readOrderRecords()).sort((a, b) => {
+    const dateA = new Date(a.updatedAt || a.createdAt || 0).getTime();
+    const dateB = new Date(b.updatedAt || b.createdAt || 0).getTime();
+    return dateB - dateA;
+  });
+}
+
+function createAdminSessionToken() {
+  if (!ADMIN_PIN) {
+    return "";
+  }
+
+  return crypto.createHmac("sha256", ADMIN_PIN).update("natural-hype-owner").digest("hex");
+}
+
+function hasAdminSession(request) {
+  if (!ADMIN_PIN) {
+    return false;
+  }
+
+  const cookies = parseCookies(request.headers.cookie || "");
+  const token = cookies[ADMIN_COOKIE_NAME] || "";
+  const expected = createAdminSessionToken();
+  const tokenBuffer = Buffer.from(token);
+  const expectedBuffer = Buffer.from(expected);
+
+  return tokenBuffer.length === expectedBuffer.length && crypto.timingSafeEqual(tokenBuffer, expectedBuffer);
+}
+
+function isAdminRequest(request) {
+  if (!ADMIN_PIN) {
+    return false;
+  }
+
+  return request.headers["x-admin-pin"] === ADMIN_PIN || hasAdminSession(request);
+}
+
+function sendAdminUnauthorized(response) {
+  sendJson(response, ADMIN_PIN ? 401 : 503, {
+    error: ADMIN_PIN ? "Owner PIN is incorrect." : "Owner PIN is not configured."
+  });
+}
+
+function createTicketItems(lineItems) {
+  return lineItems.map((item) => ({
+    quantity: item.quantity || 1,
+    name: clampText(item.description || "Menu item", 120),
+    lineTotal: typeof item.amount_total === "number" ? item.amount_total / 100 : 0
+  }));
+}
+
+function buildStoredOrder(session, lineItems, status) {
+  const metadata = session.metadata || {};
+  const customerDetails = session.customer_details || {};
+  const orderId = metadata.order_id || session.client_reference_id || createOrderId();
+  const paymentMethod = metadata.payment_method === "cash" ? "cash" : "card";
+
+  return {
+    orderId,
+    status,
+    paymentMethod,
+    customerName: clampText(metadata.customer_name || customerDetails.name || "customer", 80),
+    customerPhone: clampText(metadata.phone || customerDetails.phone || "", 40),
+    customerEmail: clampText(customerDetails.email || "", 80),
+    serviceMode: clampText(metadata.service_mode || "", 20),
+    desiredTime: clampText(metadata.desired_time || "", 40),
+    notes: clampText(metadata.notes || "", 120),
+    total: typeof session.amount_total === "number" ? session.amount_total / 100 : 0,
+    items: createTicketItems(lineItems),
+    collectedAt: "",
+    createdAt: new Date().toISOString()
+  };
 }
 
 function verifyStripeWebhookSignature(rawBody, signatureHeader) {
@@ -369,11 +506,11 @@ async function sendBusinessMessage(session, lineItems) {
 
 async function sendRestaurantEmail(session, lineItems) {
   if (!RESEND_API_KEY) {
-    throw new Error("Resend API key is not configured.");
+    return null;
   }
 
   if (!RESTAURANT_EMAIL) {
-    throw new Error("Restaurant email is not configured.");
+    return null;
   }
 
   const email = buildRestaurantEmail(session, lineItems);
@@ -404,6 +541,109 @@ async function sendRestaurantEmail(session, lineItems) {
   return data;
 }
 
+function buildOwnerOrderEmail(order, title = "Owner order update") {
+  const itemsMarkup = Array.isArray(order.items)
+    ? order.items
+        .map((item) => {
+          const quantity = item.quantity || 1;
+          const description = escapeHtml(item.name || "Menu item");
+          const total = Number(item.lineTotal || 0).toFixed(2);
+          return `<li><strong>${quantity} x ${description}</strong> - GBP ${total}</li>`;
+        })
+        .join("")
+    : "";
+  const paymentMethod = order.paymentMethod === "cash" ? "Cash on collection" : "Card online";
+  const subject = `${title} ${order.orderId} - ${order.customerName || "Natural Hype customer"}`;
+
+  return {
+    subject,
+    html: `
+      <div style="font-family: Arial, sans-serif; color: #1d321f; line-height: 1.6;">
+        <h1 style="margin-bottom: 8px;">${escapeHtml(title)}</h1>
+        <p style="margin-top: 0;">Natural Hype owner order record.</p>
+        <h2 style="margin-bottom: 8px;">Order</h2>
+        <p>
+          <strong>Order ID:</strong> ${escapeHtml(order.orderId)}<br />
+          <strong>Status:</strong> ${escapeHtml(order.status || "Order received")}<br />
+          <strong>Payment:</strong> ${escapeHtml(paymentMethod)}<br />
+          <strong>Total:</strong> GBP ${Number(order.total || 0).toFixed(2)}<br />
+          <strong>Collected:</strong> ${escapeHtml(order.collectedAt || "No")}
+        </p>
+        <h2 style="margin-bottom: 8px;">Customer</h2>
+        <p>
+          <strong>Name:</strong> ${escapeHtml(order.customerName || "Not provided")}<br />
+          <strong>Phone:</strong> ${escapeHtml(order.customerPhone || "Not provided")}<br />
+          <strong>Email:</strong> ${escapeHtml(order.customerEmail || "Not provided")}
+        </p>
+        <h2 style="margin-bottom: 8px;">Order details</h2>
+        <p>
+          <strong>Service:</strong> ${escapeHtml(order.serviceMode || "Not provided")}<br />
+          <strong>Requested time:</strong> ${escapeHtml(order.desiredTime || "Not provided")}<br />
+          <strong>Notes:</strong> ${escapeHtml(order.notes || "None")}
+        </p>
+        <h2 style="margin-bottom: 8px;">Items</h2>
+        <ul>${itemsMarkup || "<li>No items saved.</li>"}</ul>
+      </div>
+    `
+  };
+}
+
+async function sendOwnerOrderEmail(order, title) {
+  if (!RESEND_API_KEY || !RESTAURANT_EMAIL) {
+    return null;
+  }
+
+  const email = buildOwnerOrderEmail(order, title);
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      from: MAIL_FROM,
+      to: [RESTAURANT_EMAIL],
+      subject: email.subject,
+      html: email.html
+    })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    const message = data && data.message ? data.message : "Owner email could not be sent.";
+    throw new Error(message);
+  }
+
+  return data;
+}
+
+async function sendOrderNotifications(session, lineItems) {
+  const results = {
+    emailSent: false,
+    phoneAlertSent: false,
+    errors: []
+  };
+
+  try {
+    const email = await sendRestaurantEmail(session, lineItems);
+    results.emailSent = Boolean(email);
+  } catch (error) {
+    results.errors.push(`Email alert failed: ${error.message}`);
+    console.error("Restaurant email failed:", error.message);
+  }
+
+  try {
+    const phoneAlert = await sendBusinessMessage(session, lineItems);
+    results.phoneAlertSent = Boolean(phoneAlert);
+  } catch (error) {
+    results.errors.push(`Business phone alert failed: ${error.message}`);
+    console.error("Business phone alert failed:", error.message);
+  }
+
+  return results;
+}
+
 async function handleSuccessfulCheckout(session) {
   if (!session || !session.id) {
     throw new Error("Checkout session payload is missing.");
@@ -414,14 +654,12 @@ async function handleSuccessfulCheckout(session) {
   }
 
   const lineItems = await fetchCheckoutLineItems(session.id);
-  await sendRestaurantEmail(session, lineItems);
-  try {
-    await sendBusinessMessage(session, lineItems);
-  } catch (error) {
-    console.error("Business phone alert failed:", error.message);
-  }
+  const notifications = await sendOrderNotifications(session, lineItems);
+  const orderId = session.metadata?.order_id || session.client_reference_id || session.id;
+  saveOrderRecord(orderId, buildStoredOrder(session, lineItems, "paid"));
   markOrderFulfilled(session.id, {
-    email: RESTAURANT_EMAIL
+    email: notifications.emailSent ? RESTAURANT_EMAIL : "",
+    phoneAlertSent: notifications.phoneAlertSent
   });
 }
 
@@ -499,7 +737,7 @@ function buildStripeParams(payload, origin) {
   params.set("metadata[address]", clampText(service.address, 120));
   params.set("metadata[notes]", clampText(service.notes, 120));
 
-  return { params, orderId, customerName };
+  return { params, orderId, customerName, lineItems };
 }
 
 function buildCashOrderSession(payload) {
@@ -570,7 +808,7 @@ function buildCashOrderSession(payload) {
 }
 
 async function createStripeCheckoutSession(payload, origin) {
-  const { params, orderId, customerName } = buildStripeParams(payload, origin);
+  const { params, orderId, customerName, lineItems } = buildStripeParams(payload, origin);
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
     headers: {
@@ -585,6 +823,26 @@ async function createStripeCheckoutSession(payload, origin) {
   if (!response.ok) {
     throw new Error("Payment checkout could not be created.");
   }
+
+  saveOrderRecord(orderId, {
+    orderId,
+    status: "pending_card_payment",
+    paymentMethod: "card",
+    stripeSessionId: data.id || "",
+    customerName,
+    customerPhone: clampText(payload.customer?.phone, 40),
+    customerEmail: clampText(payload.customer?.email, 80),
+    serviceMode: clampText(payload.service?.mode, 20),
+    desiredTime: clampText(payload.service?.desiredTime, 40),
+    notes: clampText(payload.service?.notes, 120),
+    total: lineItems.reduce((sum, item) => sum + (item.unitAmount * item.quantity) / 100, 0),
+    items: lineItems.map((item) => ({
+      quantity: item.quantity,
+      name: clampText([item.name, item.variant].filter(Boolean).join(" - "), 120),
+      lineTotal: (item.unitAmount * item.quantity) / 100
+    })),
+    createdAt: new Date().toISOString()
+  });
 
   return {
     ...data,
@@ -617,6 +875,129 @@ const server = http.createServer(async (request, response) => {
       webhookReady: Boolean(STRIPE_WEBHOOK_SECRET),
       emailReady: Boolean(RESEND_API_KEY && RESTAURANT_EMAIL),
       phoneAlertReady: Boolean(TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_FROM_NUMBER && BUSINESS_PHONE_NUMBER)
+    });
+    return;
+  }
+
+  if (request.method === "GET" && parsedUrl.pathname.startsWith("/api/orders/")) {
+    const orderId = decodeURIComponent(parsedUrl.pathname.replace("/api/orders/", ""));
+    const order = getOrderRecord(orderId);
+
+    if (!order) {
+      sendJson(response, 404, {
+        valid: false,
+        error: "Order ticket was not found."
+      });
+      return;
+    }
+
+    sendJson(response, 200, {
+      valid: true,
+      order
+    });
+    return;
+  }
+
+  if (request.method === "POST" && parsedUrl.pathname === "/api/admin/login") {
+    try {
+      const payload = await parseBody(request);
+      const pin = String(payload.pin || "");
+
+      if (!ADMIN_PIN || pin !== ADMIN_PIN) {
+        sendAdminUnauthorized(response);
+        return;
+      }
+
+      response.writeHead(200, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+        "Set-Cookie": `${ADMIN_COOKIE_NAME}=${encodeURIComponent(createAdminSessionToken())}; HttpOnly; SameSite=Lax; Path=/; Max-Age=28800`
+      });
+      response.end(JSON.stringify({ ok: true }));
+    } catch (error) {
+      sendJson(response, 400, {
+        error: "Owner login failed."
+      });
+    }
+    return;
+  }
+
+  if (request.method === "POST" && parsedUrl.pathname === "/api/admin/logout") {
+    response.writeHead(200, {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
+      "Set-Cookie": `${ADMIN_COOKIE_NAME}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`
+    });
+    response.end(JSON.stringify({ ok: true }));
+    return;
+  }
+
+  if (request.method === "GET" && parsedUrl.pathname === "/api/admin/orders") {
+    if (!isAdminRequest(request)) {
+      sendAdminUnauthorized(response);
+      return;
+    }
+
+    sendJson(response, 200, {
+      orders: listOrderRecords()
+    });
+    return;
+  }
+
+  if (request.method === "POST" && parsedUrl.pathname.startsWith("/api/admin/orders/")) {
+    if (!isAdminRequest(request)) {
+      sendAdminUnauthorized(response);
+      return;
+    }
+
+    const actionPath = parsedUrl.pathname.replace("/api/admin/orders/", "");
+    const [encodedOrderId, action] = actionPath.split("/");
+    const orderId = decodeURIComponent(encodedOrderId || "");
+    const order = getOrderRecord(orderId);
+
+    if (!order) {
+      sendJson(response, 404, {
+        error: "Order ticket was not found."
+      });
+      return;
+    }
+
+    if (action === "email") {
+      try {
+        const email = await sendOwnerOrderEmail(order, "Owner order confirmation");
+        sendJson(response, 200, {
+          ok: true,
+          emailSent: Boolean(email)
+        });
+      } catch (error) {
+        sendJson(response, 500, {
+          error: error.message || "Order email could not be sent."
+        });
+      }
+      return;
+    }
+
+    if (action !== "collect") {
+      sendJson(response, 404, {
+        error: "Owner action was not found."
+      });
+      return;
+    }
+
+    const collectedOrder = saveOrderRecord(orderId, {
+      ...order,
+      status: "collected",
+      collectedAt: new Date().toISOString()
+    });
+    try {
+      await sendOwnerOrderEmail(collectedOrder, "Order collected");
+    } catch (error) {
+      console.error("Collected order email failed:", error.message);
+    }
+
+    sendJson(response, 200, {
+      ok: true,
+      order: collectedOrder
     });
     return;
   }
@@ -675,14 +1056,14 @@ const server = http.createServer(async (request, response) => {
       const payload = await parseBody(request);
       const cashOrder = buildCashOrderSession(payload);
 
-      await sendRestaurantEmail(cashOrder.session, cashOrder.lineItems);
-      try {
-        await sendBusinessMessage(cashOrder.session, cashOrder.lineItems);
-      } catch (error) {
-        console.error("Business phone alert failed:", error.message);
-      }
+      const notifications = await sendOrderNotifications(cashOrder.session, cashOrder.lineItems);
+      saveOrderRecord(
+        cashOrder.orderId,
+        buildStoredOrder(cashOrder.session, cashOrder.lineItems, "cash_confirm_required")
+      );
       markOrderFulfilled(cashOrder.orderId, {
-        email: RESTAURANT_EMAIL,
+        email: notifications.emailSent ? RESTAURANT_EMAIL : "",
+        phoneAlertSent: notifications.phoneAlertSent,
         paymentMethod: "cash"
       });
 
@@ -701,6 +1082,16 @@ const server = http.createServer(async (request, response) => {
 
   if (request.method !== "GET") {
     sendJson(response, 405, { error: "Method not allowed" });
+    return;
+  }
+
+  if (parsedUrl.pathname === "/owner.html" && !hasAdminSession(request)) {
+    sendRedirect(response, "/owner-login.html");
+    return;
+  }
+
+  if (parsedUrl.pathname === "/owner-login.html" && hasAdminSession(request)) {
+    sendRedirect(response, "/owner.html");
     return;
   }
 

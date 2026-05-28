@@ -127,6 +127,24 @@ Use the business number in international format, for example:
 
 The alert includes the ticket number, customer name, customer phone, payment method, collection time, notes, total, and food purchased.
 
+## Owner ticket confirmation
+
+Owner-only ticket checking is available at:
+
+```text
+/owner.html
+```
+
+Set this environment variable before using it:
+
+```text
+ADMIN_PIN=your_private_owner_pin
+```
+
+The owner page is protected by the owner PIN. It shows order number, customer name, phone, payment method, food, and total. The owner can email an order record or click **Confirm collected**. Once collected, the public ticket changes to show that it has already been used.
+
+The local version stores orders in `data/orders.json`. Do not upload `.env` or `data/` to GitHub. For production, a free database such as Supabase, Neon, or Google Sheets can replace the local JSON file if you need permanent order history.
+
 ## Pre-launch check
 
 After deployment, open:
