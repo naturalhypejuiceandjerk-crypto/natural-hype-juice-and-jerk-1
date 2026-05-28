@@ -63,6 +63,13 @@ Current restaurant inbox:
 
 - `naturalhypejuiceandjerk@gmail.com`
 
+Important for Render and Resend:
+
+- Render environment variables are read directly from Render, and the server also reads `/etc/secrets/.env` if you use Render Secret Files.
+- `MAIL_FROM=Natural Hype Orders <onboarding@resend.dev>` is only for Resend testing and will not send to the restaurant Gmail inbox unless that Gmail is the email on the Resend account.
+- For live orders, verify your domain in Resend, then set `MAIL_FROM` in Render to a sender on that domain, for example `Natural Hype Orders <orders@natural-hype.co.uk>`.
+- The owner page has a protected **Test email** button. Use it after deploy; if Resend rejects the sender, the page will show the Resend error.
+
 Webhook endpoint to register in Stripe:
 
 - `/api/stripe/webhook`

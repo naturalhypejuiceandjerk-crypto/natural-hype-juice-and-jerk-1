@@ -19,4 +19,4 @@ services:
       - key: RESTAURANT_EMAIL
         value: naturalhypejuiceandjerk@gmail.com
       - key: MAIL_FROM
-        value: Natural Hype Orders <onboarding@resend.dev>
+        sync: false

@@ -4,8 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { URL } = require("url");
 
-function loadEnvFile() {
-  const envPath = path.join(__dirname, ".env");
+function loadEnvFile(envPath) {
   if (!fs.existsSync(envPath)) {
     return;
   }
@@ -31,7 +30,8 @@ function loadEnvFile() {
   });
 }
 
-loadEnvFile();
+loadEnvFile(path.join(__dirname, ".env"));
+loadEnvFile("/etc/secrets/.env");
 
 const PORT = Number(process.env.PORT || 3000);
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
@@ -50,6 +50,10 @@ const DATA_DIR = path.join(__dirname, "data");
 const FULFILLED_ORDERS_FILE = path.join(DATA_DIR, "fulfilled-orders.json");
 const ORDER_RECORDS_FILE = path.join(DATA_DIR, "orders.json");
 const ADMIN_COOKIE_NAME = "nh_owner_session";
+
+function isEmailConfigured() {
+  return Boolean(RESEND_API_KEY && RESTAURANT_EMAIL && MAIL_FROM);
+}
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -505,11 +509,7 @@ async function sendBusinessMessage(session, lineItems) {
 }
 
 async function sendRestaurantEmail(session, lineItems) {
-  if (!RESEND_API_KEY) {
-    return null;
-  }
-
-  if (!RESTAURANT_EMAIL) {
+  if (!isEmailConfigured()) {
     return null;
   }
 
@@ -535,6 +535,41 @@ async function sendRestaurantEmail(session, lineItems) {
       data && data.message
         ? data.message
         : "Restaurant email could not be sent.";
+    throw new Error(message);
+  }
+
+  return data;
+}
+
+async function sendTestEmail() {
+  if (!isEmailConfigured()) {
+    return null;
+  }
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      from: MAIL_FROM,
+      to: [RESTAURANT_EMAIL],
+      subject: "Natural Hype email test",
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #1d321f; line-height: 1.6;">
+          <h1>Email test</h1>
+          <p>This is a Natural Hype test email from the website server.</p>
+          <p>If this arrived, Render can reach Resend and the sender is accepted.</p>
+        </div>
+      `
+    })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    const message = data && data.message ? data.message : "Test email could not be sent.";
     throw new Error(message);
   }
 
@@ -589,7 +624,7 @@ function buildOwnerOrderEmail(order, title = "Owner order update") {
 }
 
 async function sendOwnerOrderEmail(order, title) {
-  if (!RESEND_API_KEY || !RESTAURANT_EMAIL) {
+  if (!isEmailConfigured()) {
     return null;
   }
 
@@ -873,7 +908,10 @@ const server = http.createServer(async (request, response) => {
       ok: true,
       stripeEnabled: Boolean(STRIPE_SECRET_KEY),
       webhookReady: Boolean(STRIPE_WEBHOOK_SECRET),
-      emailReady: Boolean(RESEND_API_KEY && RESTAURANT_EMAIL),
+      emailReady: isEmailConfigured(),
+      emailSender: MAIL_FROM ? "configured" : "missing",
+      emailSenderMode: MAIL_FROM.includes("@resend.dev") ? "resend-dev-testing" : "custom-domain",
+      emailRecipient: RESTAURANT_EMAIL ? "configured" : "missing",
       phoneAlertReady: Boolean(TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_FROM_NUMBER && BUSINESS_PHONE_NUMBER)
     });
     return;
@@ -929,6 +967,26 @@ const server = http.createServer(async (request, response) => {
       "Set-Cookie": `${ADMIN_COOKIE_NAME}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`
     });
     response.end(JSON.stringify({ ok: true }));
+    return;
+  }
+
+  if (request.method === "POST" && parsedUrl.pathname === "/api/admin/test-email") {
+    if (!isAdminRequest(request)) {
+      sendAdminUnauthorized(response);
+      return;
+    }
+
+    try {
+      const email = await sendTestEmail();
+      sendJson(response, 200, {
+        ok: true,
+        emailSent: Boolean(email)
+      });
+    } catch (error) {
+      sendJson(response, 500, {
+        error: error.message || "Test email could not be sent."
+      });
+    }
     return;
   }
 
