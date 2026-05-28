@@ -834,6 +834,110 @@ body::before {
   gap: 12px;
 }
 
+.owner-panel,
+.owner-orders {
+  display: grid;
+  gap: 16px;
+}
+
+.owner-login,
+.owner-tools,
+.owner-order {
+  padding: 22px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow);
+}
+
+.owner-login,
+.owner-tools {
+  display: flex;
+  gap: 14px;
+  align-items: end;
+}
+
+.owner-login label,
+.owner-tools label {
+  flex: 1;
+  display: grid;
+  gap: 8px;
+}
+
+.owner-login span,
+.owner-tools span,
+.owner-order-head span,
+.owner-order-meta span {
+  color: var(--muted);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+}
+
+.owner-login input,
+.owner-tools input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(45, 122, 52, 0.18);
+  background: rgba(255, 255, 255, 0.94);
+  font: inherit;
+  color: var(--ink);
+}
+
+.owner-order {
+  display: grid;
+  gap: 16px;
+}
+
+.owner-order-head,
+.owner-order-actions,
+.owner-order-items li {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.owner-order-head strong {
+  display: block;
+  color: var(--green-dark);
+  font-size: 1.2rem;
+}
+
+.owner-order-meta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.owner-order-meta div {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(45, 122, 52, 0.08);
+}
+
+.owner-order-items {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.owner-order-items li {
+  padding-top: 10px;
+  border-top: 1px solid rgba(45, 122, 52, 0.12);
+}
+
+.owner-order button:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
 .visit-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -915,8 +1019,12 @@ body::before {
   .menu-toolbar,
   .field-row,
   .checkout-actions,
+  .owner-login,
+  .owner-tools,
+  .owner-order-actions,
   .subpage-hero {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .search-field {
@@ -924,6 +1032,7 @@ body::before {
   }
 
   .menu-grid,
+  .owner-order-meta,
   .visit-grid {
     grid-template-columns: 1fr;
   }
