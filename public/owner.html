@@ -46,6 +46,7 @@
               <span>Find ticket</span>
               <input id="orderSearch" type="search" placeholder="Search order number, name, or phone" />
             </label>
+            <button class="button secondary" id="testEmail" type="button">Test email</button>
             <button class="button secondary" id="refreshOrders" type="button">Refresh</button>
           </div>
 
@@ -65,6 +66,7 @@
       const ownerMessage = document.getElementById("ownerMessage");
       const orderSearch = document.getElementById("orderSearch");
       const refreshOrders = document.getElementById("refreshOrders");
+      const testEmail = document.getElementById("testEmail");
       const ownerLogout = document.getElementById("ownerLogout");
       let orders = [];
 
@@ -205,11 +207,40 @@
         );
       }
 
+      async function sendTestEmail() {
+        const response = await fetch("/api/admin/test-email", {
+          method: "POST"
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Test email could not be sent.");
+        }
+
+        setOwnerMessage(
+          data.emailSent
+            ? "Test email was sent to the restaurant inbox."
+            : "Email is not configured, so no test email was sent."
+        );
+      }
+
       refreshOrders.addEventListener("click", async () => {
         try {
           await loadOrders();
         } catch (error) {
           setOwnerMessage(error.message || "Orders could not be refreshed.", true);
+        }
+      });
+
+      testEmail.addEventListener("click", async () => {
+        testEmail.disabled = true;
+        try {
+          setOwnerMessage("Sending test email...");
+          await sendTestEmail();
+        } catch (error) {
+          setOwnerMessage(error.message || "Test email could not be sent.", true);
+        } finally {
+          testEmail.disabled = false;
         }
       });
 
