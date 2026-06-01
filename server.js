@@ -60,6 +60,8 @@ const MIME_TYPES = {
   ".css": "text/css; charset=utf-8",
   ".js": "application/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
+  ".txt": "text/plain; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8",
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
@@ -74,6 +76,59 @@ function sendJson(response, statusCode, payload) {
     "Cache-Control": "no-store"
   });
   response.end(JSON.stringify(payload));
+}
+
+function sendText(response, statusCode, contentType, content) {
+  response.writeHead(statusCode, {
+    "Content-Type": contentType,
+    "Cache-Control": "public, max-age=3600"
+  });
+  response.end(content);
+}
+
+function getPublicOrigin(request) {
+  const forwardedHost = request.headers["x-forwarded-host"];
+  const hostHeader = Array.isArray(forwardedHost) ? forwardedHost[0] : forwardedHost || request.headers.host;
+  const host = String(hostHeader || "").split(",")[0].trim();
+
+  if (!host || host.includes("localhost") || host.startsWith("127.")) {
+    return "https://www.natural-hype.com";
+  }
+
+  return `https://${host}`;
+}
+
+function buildRobotsTxt(publicOrigin) {
+  return `User-agent: *
+Allow: /
+
+Sitemap: ${publicOrigin}/sitemap.xml
+`;
+}
+
+function buildSitemapXml(publicOrigin) {
+  const urls = [
+    { path: "/", changefreq: "weekly", priority: "1.0" },
+    { path: "/order.html", changefreq: "weekly", priority: "0.9" },
+    { path: "/checkout.html", changefreq: "monthly", priority: "0.5" }
+  ];
+
+  const entries = urls
+    .map(
+      (url) => `  <url>
+    <loc>${publicOrigin}${url.path}</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>${url.changefreq}</changefreq>
+    <priority>${url.priority}</priority>
+  </url>`
+    )
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${entries}
+</urlset>
+`;
 }
 
 function sendRedirect(response, location) {
@@ -1140,6 +1195,18 @@ const server = http.createServer(async (request, response) => {
 
   if (request.method !== "GET") {
     sendJson(response, 405, { error: "Method not allowed" });
+    return;
+  }
+
+  if (parsedUrl.pathname === "/robots.txt") {
+    const publicOrigin = getPublicOrigin(request);
+    sendText(response, 200, "text/plain; charset=utf-8", buildRobotsTxt(publicOrigin));
+    return;
+  }
+
+  if (parsedUrl.pathname === "/sitemap.xml") {
+    const publicOrigin = getPublicOrigin(request);
+    sendText(response, 200, "application/xml; charset=utf-8", buildSitemapXml(publicOrigin));
     return;
   }
 
