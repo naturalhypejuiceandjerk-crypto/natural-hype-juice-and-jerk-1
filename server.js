@@ -50,6 +50,8 @@ const DATA_DIR = path.join(__dirname, "data");
 const FULFILLED_ORDERS_FILE = path.join(DATA_DIR, "fulfilled-orders.json");
 const ORDER_RECORDS_FILE = path.join(DATA_DIR, "orders.json");
 const ADMIN_COOKIE_NAME = "nh_owner_session";
+const INDEXNOW_KEY = "a2f5df0b-1574-47d3-a7c8-95a10a493d22";
+const INDEXNOW_KEY_PATH = `/${INDEXNOW_KEY}.txt`;
 
 function isEmailConfigured() {
   return Boolean(RESEND_API_KEY && RESTAURANT_EMAIL && MAIL_FROM);
@@ -1225,6 +1227,11 @@ const server = http.createServer(async (request, response) => {
   if (parsedUrl.pathname === "/sitemap.xml") {
     const publicOrigin = getPublicOrigin(request);
     sendText(response, 200, "application/xml; charset=utf-8", buildSitemapXml(publicOrigin));
+    return;
+  }
+
+  if (parsedUrl.pathname === INDEXNOW_KEY_PATH) {
+    sendText(response, 200, "text/plain; charset=utf-8", `${INDEXNOW_KEY}\n`);
     return;
   }
 
