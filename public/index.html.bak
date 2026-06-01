@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Natural Hype Juice and Jerk</title>
+    <meta
+      name="description"
+      content="Fresh Caribbean meals, salad boxes, soups, juices, finger food, and flavoured water from Natural Hype Juice and Jerk."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Natural Hype Juice and Jerk home">
+          <img src="/assets/logo.png" alt="Natural Hype logo" class="brand-logo" />
+          <div>
+            <strong>Natural Hype</strong>
+            <span>Juice and Jerk</span>
+          </div>
+        </a>
+        <nav class="nav">
+          <a href="/">Home</a>
+          <a href="/order.html">Order</a>
+          <a href="/checkout.html">Checkout</a>
+          <a href="#visit">Visit</a>
+        </nav>
+        <button class="cart-chip" id="cartChip" type="button">Cart 0</button>
+      </header>
+
+      <main>
+        <section class="hero" id="home">
+          <div class="hero-copy">
+            <p class="eyebrow">Fresh Caribbean flavour, natural energy</p>
+            <h1>Natural Hype Juice and Jerk</h1>
+            <p class="hero-text">
+              Fresh Caribbean meals, salad boxes, soups, juices, and finger food with fast online ordering
+              and secure card payment.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="/order.html">Start Order</a>
+              <a class="button secondary" href="/checkout.html">Open Checkout</a>
+            </div>
+            <div class="hero-points">
+              <span>Real food photos</span>
+              <span>Sauce choices</span>
+              <span>Stripe checkout</span>
+            </div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-top">
+              <span>Popular right now</span>
+              <strong>Jerk Chicken Dinner</strong>
+            </div>
+            <div class="hero-image" id="heroArtwork" aria-hidden="true"></div>
+            <div class="hero-price-row">
+              <div>
+                <small>Medium</small>
+                <strong>GBP 9.00</strong>
+              </div>
+              <div>
+                <small>Large</small>
+                <strong>GBP 10.50</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="stats">
+          <article>
+            <strong>Order Page</strong>
+            <span>Browse the full menu, search quickly, and add items without leaving the menu view.</span>
+          </article>
+          <article>
+            <strong>Checkout Page</strong>
+            <span>Review the basket, choose your collection time, and continue to secure payment in one place.</span>
+          </article>
+          <article>
+            <strong>Secure Payment</strong>
+            <span>Stripe-hosted card payments for a smooth and trusted checkout.</span>
+          </article>
+        </section>
+
+        <section class="quick-links-section">
+          <div class="section-heading">
+            <p class="eyebrow">Quick access</p>
+            <h2>Pick where to go next</h2>
+            <p>Jump straight to the menu or head directly to checkout.</p>
+          </div>
+          <div class="quick-links-grid">
+            <article class="quick-link-card">
+              <span class="pill">Ordering</span>
+              <h3>Open the menu</h3>
+              <p>Browse meals, salad boxes, juices, soups, and finger food with sauce add-ons.</p>
+              <a class="button primary" href="/order.html">Go to Order Page</a>
+            </article>
+            <article class="quick-link-card">
+              <span class="pill">Payment</span>
+              <h3>Go straight to checkout</h3>
+              <p>Customers with items already in the cart can skip ahead and complete payment faster.</p>
+              <a class="button secondary" href="/checkout.html">Go to Checkout</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="story-section" id="about">
+          <div class="story-copy">
+            <p class="eyebrow">Brand story</p>
+            <h2>Built for bold Caribbean flavour</h2>
+            <p>
+              Natural Hype brings together hearty dinners, salad boxes, fresh juices, soups, and finger food in one simple online ordering experience.
+            </p>
+            <div class="story-list">
+              <span>Full food and drinks menu</span>
+              <span>Shared basket across pages</span>
+              <span>Stripe hosted card payment</span>
+            </div>
+          </div>
+          <div class="story-panel">
+            <h3>Order online</h3>
+            <p id="paymentDescription">Secure card payment is handled by Stripe.</p>
+            <div class="mode-cards">
+              <article>
+                <strong>Order page</strong>
+                <span>Best for browsing and building the basket</span>
+              </article>
+              <article>
+                <strong>Checkout page</strong>
+                <span>Best for customer details, collection choice, and card payment</span>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="visit-section" id="visit">
+          <div class="section-heading">
+            <p class="eyebrow">Restaurant essentials</p>
+            <h2>Visit and contact us</h2>
+            <p>Find us in Manchester for fresh meals, drinks, and daily favourites.</p>
+          </div>
+          <div class="visit-grid">
+            <article>
+              <h3>Address</h3>
+              <p>31 Hulme High Street</p>
+              <p>M15 5JT</p>
+              <p>Manchester, UK</p>
+            </article>
+            <article>
+              <h3>Phone</h3>
+              <p>+44 749857 4490</p>
+            </article>
+            <article>
+              <h3>Hours</h3>
+              <p>12PM - 8PM</p>
+              <p>MON - SAT</p>
+            </article>
+            <article>
+              <h3>Catering</h3>
+              <p>Fresh Daily Menu</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
+
