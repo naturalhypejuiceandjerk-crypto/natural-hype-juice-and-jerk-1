@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Ticket | Natural Hype Juice and Jerk</title>
+    <meta name="description" content="Natural Hype Juice and Jerk order confirmation ticket.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&amp;family=Pacifico&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Natural Hype Juice and Jerk home">
+          <img src="/assets/logo.png" alt="Natural Hype logo" class="brand-logo">
+          <div>
+            <strong>Natural Hype</strong>
+            <span>Juice and Jerk</span>
+          </div>
+        </a>
+        <nav class="nav">
+          <a href="/">Home</a>
+          <a href="/order.html">Order</a>
+          <a href="/checkout.html">Checkout</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="ticket-section">
+          <div class="ticket-panel">
+            <p class="eyebrow">Order received</p>
+            <h1>Thanks, <span id="ticketName">customer</span></h1>
+
+            <div class="order-ticket" aria-label="Order ticket">
+              <span>Order ticket</span>
+              <strong id="ticketNumber">NH-ORDER</strong>
+            </div>
+
+            <p class="ticket-copy" id="ticketCopy">
+              Your order number is shown on this ticket. You must show this ticket at the shop before collecting your order.
+            </p>
+
+            <div class="ticket-items">
+              <div class="ticket-items-header">
+                <span>Food purchased</span>
+                <strong id="ticketTotal">GBP 0.00</strong>
+              </div>
+              <ul id="ticketItems"></ul>
+            </div>
+
+            <div class="ticket-details">
+              <div>
+                <span>Payment</span>
+                <strong id="ticketPayment">Card online</strong>
+              </div>
+              <div>
+                <span>Ticket status</span>
+                <strong id="ticketStatus">Checking order</strong>
+              </div>
+              <div>
+                <span>Shop address</span>
+                <strong>31 Hulme High Street, Manchester M15 5JT</strong>
+              </div>
+              <div>
+                <span>Business phone</span>
+                <strong>+44 7498 574490</strong>
+              </div>
+            </div>
+
+            <div class="ticket-actions">
+              <a class="button primary" id="callBusinessButton" href="tel:+447498574490">Call business</a>
+              <a class="button primary" href="/order.html">Start another order</a>
+              <a class="button secondary" href="/">Back home</a>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      let savedOrder = {};
+
+      try {
+        savedOrder = JSON.parse(window.sessionStorage.getItem("naturalHypeLastOrder") || "{}");
+      } catch (error) {
+        savedOrder = {};
+      }
+
+      if (window.location.hash.startsWith("#receipt=")) {
+        try {
+          savedOrder = JSON.parse(decodeURIComponent(window.location.hash.slice(9)));
+        } catch (error) {
+          savedOrder = {};
+        }
+      }
+
+      const requestedOrderId = params.get("order") || savedOrder.orderId || "";
+      const paymentLabels = {
+        card: "Card online",
+        cash: "Cash on collection"
+      };
+      const statusLabels = {
+        cash_confirm_required: "Valid cash order - call to confirm",
+        paid: "Valid paid order",
+        pending_card_payment: "Payment not confirmed yet",
+        collected: "Collected - ticket used"
+      };
+      const currencyFormatter = new Intl.NumberFormat("en-GB", {
+        style: "currency",
+        currency: "GBP"
+      });
+
+      function cleanText(value) {
+        return String(value || "").replace(/[<>]/g, "").trim();
+      }
+
+      function itemLabel(item) {
+        return [item.name, item.optionLabel, item.rice].filter(Boolean).map(cleanText).join(" - ");
+      }
+
+      const ticketCopy = document.getElementById("ticketCopy");
+      const callBusinessButton = document.getElementById("callBusinessButton");
+      const ticketItems = document.getElementById("ticketItems");
+      const ticketStatus = document.getElementById("ticketStatus");
+
+      function renderItems(items) {
+        ticketItems.innerHTML = items.length
+          ? items
+              .map((item) => {
+                const quantity = Number(item.quantity || 1);
+                const lineTotal = Number(item.lineTotal || 0);
+                return `
+                  <li>
+                    <div>
+                      <strong>${quantity} x ${itemLabel(item)}</strong>
+                      <span>${currencyFormatter.format(lineTotal)}</span>
+                    </div>
+                  </li>
+                `;
+              })
+              .join("")
+          : "<li><div><strong>Order items will be checked by staff.</strong><span>Show ticket</span></div></li>";
+      }
+
+      function renderInvalidTicket() {
+        document.getElementById("ticketNumber").textContent = requestedOrderId || "Not found";
+        document.getElementById("ticketName").textContent = "customer";
+        document.getElementById("ticketPayment").textContent = "Not verified";
+        document.getElementById("ticketTotal").textContent = currencyFormatter.format(0);
+        ticketStatus.textContent = "Ticket not found";
+        ticketCopy.textContent =
+          "This ticket number was not found in the order system. Please place an order before collecting food.";
+        renderItems([]);
+      }
+
+      function renderOrder(order) {
+        const orderId = cleanText(order.orderId);
+        const paymentMethod = order.paymentMethod || "card";
+        const items = Array.isArray(order.items) ? order.items : [];
+        const total = Number(order.total || 0);
+
+        document.getElementById("ticketNumber").textContent = orderId;
+        document.getElementById("ticketName").textContent = cleanText(order.customerName || "customer");
+        document.getElementById("ticketPayment").textContent = paymentLabels[paymentMethod] || "Card online";
+        document.getElementById("ticketTotal").textContent = currencyFormatter.format(total);
+        ticketStatus.textContent = statusLabels[order.status] || "Valid order";
+
+        if (order.status === "collected") {
+          ticketCopy.textContent =
+            `Order ${orderId} has already been collected. This ticket has been used and cannot be used again.`;
+        } else if (paymentMethod === "cash") {
+          ticketCopy.textContent =
+            `Your order number is ${orderId}. Please call Natural Hype to confirm your order. You must show this verified ticket at the shop before collecting your order.`;
+        } else if (order.status === "paid") {
+          ticketCopy.textContent =
+            `Your order number is ${orderId}. Your card payment is complete. You must show this verified ticket at the shop before collecting your order.`;
+        } else {
+          ticketCopy.textContent =
+            `Your order number is ${orderId}. Your card payment is not confirmed yet. Please wait for confirmation or speak to staff before collecting your order.`;
+        }
+
+        callBusinessButton.textContent = "Call business";
+        renderItems(items);
+      }
+
+      async function loadTicket() {
+        if (!requestedOrderId) {
+          renderInvalidTicket();
+          return;
+        }
+
+        try {
+          const response = await fetch(`/api/orders/${encodeURIComponent(requestedOrderId)}`);
+          const data = await response.json();
+
+          if (!response.ok || !data.valid || !data.order) {
+            renderInvalidTicket();
+            return;
+          }
+
+          renderOrder(data.order);
+        } catch (error) {
+          renderInvalidTicket();
+        }
+      }
+
+      loadTicket();
+    </script>
+  </body>
+</html>
