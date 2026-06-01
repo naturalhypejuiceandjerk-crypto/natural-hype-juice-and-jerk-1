@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Owner Orders | Natural Hype Juice and Jerk</title>
+    <meta name="description" content="Owner order confirmation screen for Natural Hype Juice and Jerk." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Natural Hype Juice and Jerk home">
+          <img src="/assets/logo.png" alt="Natural Hype logo" class="brand-logo" />
+          <div>
+            <strong>Natural Hype</strong>
+            <span>Owner orders</span>
+          </div>
+        </a>
+        <nav class="nav">
+          <a href="/">Home</a>
+          <a href="/order.html">Order</a>
+          <a href="/checkout.html">Checkout</a>
+        </nav>
+        <button class="cart-chip" id="ownerLogout" type="button">Logout</button>
+      </header>
+
+      <main>
+        <section class="subpage-hero">
+          <div>
+            <p class="eyebrow">Owner only</p>
+            <h1>Confirm tickets</h1>
+            <p class="hero-text">Check the order number, food, payment, and total before marking food as collected.</p>
+          </div>
+        </section>
+
+        <section class="owner-panel">
+          <div class="owner-tools" id="ownerTools">
+            <label>
+              <span>Find ticket</span>
+              <input id="orderSearch" type="search" placeholder="Search order number, name, or phone" />
+            </label>
+            <button class="button secondary" id="testEmail" type="button">Test email</button>
+            <button class="button secondary" id="refreshOrders" type="button">Refresh</button>
+          </div>
+
+          <p class="form-message" id="ownerMessage" aria-live="polite"></p>
+          <div class="owner-orders" id="ownerOrders"></div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const currencyFormatter = new Intl.NumberFormat("en-GB", {
+        style: "currency",
+        currency: "GBP"
+      });
+      const ownerTools = document.getElementById("ownerTools");
+      const ownerOrders = document.getElementById("ownerOrders");
+      const ownerMessage = document.getElementById("ownerMessage");
+      const orderSearch = document.getElementById("orderSearch");
+      const refreshOrders = document.getElementById("refreshOrders");
+      const testEmail = document.getElementById("testEmail");
+      const ownerLogout = document.getElementById("ownerLogout");
+      let orders = [];
+
+      function setOwnerMessage(message, isError = false) {
+        ownerMessage.textContent = message;
+        ownerMessage.style.color = isError ? "#b42318" : "var(--green)";
+      }
+
+      function cleanText(value) {
+        return String(value || "").replace(/[<>]/g, "").trim();
+      }
+
+      function statusLabel(status) {
+        const labels = {
+          cash_confirm_required: "Cash - call confirmed?",
+          pending_card_payment: "Card payment pending",
+          paid: "Card paid",
+          collected: "Collected - ticket used"
+        };
+        return labels[status] || "Order received";
+      }
+
+      function paymentLabel(method) {
+        return method === "cash" ? "Cash on collection" : "Card online";
+      }
+
+      function orderMatches(order, query) {
+        const haystack = [
+          order.orderId,
+          order.customerName,
+          order.customerPhone,
+          order.paymentMethod,
+          order.status
+        ]
+          .join(" ")
+          .toLowerCase();
+        return haystack.includes(query.toLowerCase());
+      }
+
+      function renderOrders() {
+        const query = orderSearch.value.trim();
+        const visibleOrders = query ? orders.filter((order) => orderMatches(order, query)) : orders;
+
+        if (!visibleOrders.length) {
+          ownerOrders.innerHTML = '<article class="owner-order"><strong>No orders found</strong></article>';
+          return;
+        }
+
+        ownerOrders.innerHTML = visibleOrders
+          .map((order) => {
+            const items = Array.isArray(order.items) ? order.items : [];
+            const isCollected = order.status === "collected";
+            const itemMarkup = items.length
+              ? items
+                  .map(
+                    (item) => `
+                      <li>
+                        <span>${Number(item.quantity || 1)} x ${cleanText(item.name || "Menu item")}</span>
+                        <strong>${currencyFormatter.format(Number(item.lineTotal || 0))}</strong>
+                      </li>
+                    `
+                  )
+                  .join("")
+              : "<li><span>No item details saved</span><strong>-</strong></li>";
+
+            return `
+              <article class="owner-order" data-order-id="${cleanText(order.orderId)}">
+                <div class="owner-order-head">
+                  <div>
+                    <span>${statusLabel(order.status)}</span>
+                    <strong>${cleanText(order.orderId)}</strong>
+                  </div>
+                  <strong>${currencyFormatter.format(Number(order.total || 0))}</strong>
+                </div>
+                <div class="owner-order-meta">
+                  <div><span>Name</span><strong>${cleanText(order.customerName || "customer")}</strong></div>
+                  <div><span>Phone</span><strong>${cleanText(order.customerPhone || "Not provided")}</strong></div>
+                  <div><span>Payment</span><strong>${paymentLabel(order.paymentMethod)}</strong></div>
+                  <div><span>Time</span><strong>${cleanText(order.desiredTime || "Not provided")}</strong></div>
+                </div>
+                <ul class="owner-order-items">${itemMarkup}</ul>
+                <div class="owner-order-actions">
+                  <a class="button secondary" href="/order-confirmation.html?order=${encodeURIComponent(order.orderId)}" target="_blank">View ticket</a>
+                  <button class="button secondary" data-email="${cleanText(order.orderId)}" type="button">Email order</button>
+                  <button class="button primary" data-collect="${cleanText(order.orderId)}" type="button" ${isCollected ? "disabled" : ""}>
+                    ${isCollected ? "Already collected" : "Confirm collected"}
+                  </button>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      async function loadOrders() {
+        setOwnerMessage("Loading orders...");
+        const response = await fetch("/api/admin/orders");
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Orders could not be loaded.");
+        }
+
+        orders = data.orders || [];
+        renderOrders();
+        setOwnerMessage(`${orders.length} order${orders.length === 1 ? "" : "s"} loaded.`);
+      }
+
+      async function markCollected(orderId) {
+        const response = await fetch(`/api/admin/orders/${encodeURIComponent(orderId)}/collect`, {
+          method: "POST"
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Ticket could not be updated.");
+        }
+
+        orders = orders.map((order) => (order.orderId === orderId ? data.order : order));
+        renderOrders();
+        setOwnerMessage(`Ticket ${orderId} is now collected and cannot be used again.`);
+      }
+
+      async function emailOrder(orderId) {
+        const response = await fetch(`/api/admin/orders/${encodeURIComponent(orderId)}/email`, {
+          method: "POST"
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Order email could not be sent.");
+        }
+
+        setOwnerMessage(
+          data.emailSent
+            ? `Order ${orderId} was emailed.`
+            : "Email is not configured, so no email was sent."
+        );
+      }
+
+      async function sendTestEmail() {
+        const response = await fetch("/api/admin/test-email", {
+          method: "POST"
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Test email could not be sent.");
+        }
+
+        setOwnerMessage(
+          data.emailSent
+            ? "Test email was sent to the restaurant inbox."
+            : "Email is not configured, so no test email was sent."
+        );
+      }
+
+      refreshOrders.addEventListener("click", async () => {
+        try {
+          await loadOrders();
+        } catch (error) {
+          setOwnerMessage(error.message || "Orders could not be refreshed.", true);
+        }
+      });
+
+      testEmail.addEventListener("click", async () => {
+        testEmail.disabled = true;
+        try {
+          setOwnerMessage("Sending test email...");
+          await sendTestEmail();
+        } catch (error) {
+          setOwnerMessage(error.message || "Test email could not be sent.", true);
+        } finally {
+          testEmail.disabled = false;
+        }
+      });
+
+      ownerLogout.addEventListener("click", async () => {
+        await fetch("/api/admin/logout", { method: "POST" });
+        window.location.href = "/owner-login.html";
+      });
+
+      orderSearch.addEventListener("input", renderOrders);
+      ownerOrders.addEventListener("click", async (event) => {
+        const collectButton = event.target.closest("[data-collect]");
+        const emailButton = event.target.closest("[data-email]");
+        if (!collectButton && !emailButton) {
+          return;
+        }
+
+        const button = collectButton || emailButton;
+        if (button.disabled) {
+          return;
+        }
+
+        button.disabled = true;
+        try {
+          if (collectButton) {
+            await markCollected(button.dataset.collect);
+          } else {
+            await emailOrder(button.dataset.email);
+          }
+        } catch (error) {
+          setOwnerMessage(error.message || "Owner action failed.", true);
+          button.disabled = false;
+        }
+      });
+
+      loadOrders().catch((error) => {
+        setOwnerMessage(error.message || "Owner login is required.", true);
+      });
+    </script>
+  </body>
+</html>
