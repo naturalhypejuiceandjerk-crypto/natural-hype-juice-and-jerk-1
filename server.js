@@ -139,7 +139,18 @@ function sendRedirect(response, location) {
   response.end();
 }
 
-function sendFile(response, filePath) {
+function localizeSeoUrls(content, request) {
+  if (!request) {
+    return content;
+  }
+
+  const publicOrigin = getPublicOrigin(request);
+  return content
+    .replace(/https:\/\/www\.natural-hype\.com/g, publicOrigin)
+    .replace(/https:\/\/www\.natural-hype\.co\.uk/g, publicOrigin);
+}
+
+function sendFile(response, filePath, request = null) {
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME_TYPES[ext] || "application/octet-stream";
 
@@ -150,8 +161,15 @@ function sendFile(response, filePath) {
     }
 
     response.writeHead(200, {
-      "Content-Type": contentType
+      "Content-Type": contentType,
+      "Vary": "Host, X-Forwarded-Host"
     });
+
+    if (ext === ".html") {
+      response.end(localizeSeoUrls(content.toString("utf8"), request));
+      return;
+    }
+
     response.end(content);
   });
 }
@@ -1237,11 +1255,11 @@ const server = http.createServer(async (request, response) => {
 
   fs.stat(filePath, (error, stats) => {
     if (!error && stats.isDirectory()) {
-      sendFile(response, path.resolve(filePath, "index.html"));
+      sendFile(response, path.resolve(filePath, "index.html"), request);
       return;
     }
 
-    sendFile(response, filePath);
+    sendFile(response, filePath, request);
   });
 });
 
