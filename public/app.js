@@ -109,7 +109,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Fresh salad box topped with original jerk chicken.",
-    options: [{ label: "Salad Box", price: 7.0 }]
+    options: [{ label: "Salad Box", price: 7.5 }]
   },
   {
     id: "pineapple-jerk-chicken-salad",
@@ -117,7 +117,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Salad box with pineapple jerk chicken.",
-    options: [{ label: "Salad Box", price: 7.0 }]
+    options: [{ label: "Salad Box", price: 7.5 }]
   },
   {
     id: "honey-glazed-chicken-salad",
@@ -125,7 +125,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Salad box finished with honey glazed chicken.",
-    options: [{ label: "Salad Box", price: 7.0 }]
+    options: [{ label: "Salad Box", price: 7.5 }]
   },
     {
     id: "FriedChicken",
@@ -133,7 +133,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Salad box finished with Fried Chicken.",
-    options: [{ label: "Salad Box", price: 7.0 }]
+    options: [{ label: "Salad Box", price: 7.5 }]
   },
     {
     id: "PepperSteak",
@@ -141,7 +141,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Salad box finished with Pepper Steak.",
-    options: [{ label: "Salad Box", price: 7.0 }]
+    options: [{ label: "Salad Box", price: 7.5 }]
   },
     {
     id: "Currygoat",
@@ -149,7 +149,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Salad box finished with Curry Goat.",
-    options: [{ label: "Salad Box", price: 7.0 }]
+    options: [{ label: "Salad Box", price: 9.5 }]
   },
   {
     id: "boneless-fish-salad-box",
@@ -157,7 +157,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Boneless fish salad box, plain or sweet chilli.",
-    options: [{ label: "Salad Box", price: 7.5 }]
+    options: [{ label: "Salad Box", price: 9.5 }]
   },
   {
     id: "barbe-fried-chicken-salad-box",
@@ -165,7 +165,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Barbe fried chicken served as a salad box.",
-    options: [{ label: "Salad Box", price: 7.0 }]
+    options: [{ label: "Salad Box", price: 7.5 }]
   },
   {
     id: "meat-free-salad-box",
@@ -1386,7 +1386,7 @@ function initHeroArtwork() {
     return;
   }
 
-  const featured = menuItems.find((item) => item.id === "jerk-chicken") || menuItems[0];
+  const featured = menuItems.find((item) => item.id === "escovitch-fish-bone") || menuItems[0];
   heroArtwork.innerHTML = `<img src="${getItemImage(featured)}" alt="${featured.name}" />`;
 }
 

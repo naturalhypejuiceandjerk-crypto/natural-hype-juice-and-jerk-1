@@ -175,7 +175,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Fresh salad box topped with jerk chicken.",
-    options: [{ label: "Salad Box", price: 5.5 }]
+    options: [{ label: "Salad Box", price: 7.5 }]
   },
   {
     id: "fried-chicken-salad-box",
@@ -183,7 +183,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Crunchy fried chicken over a fresh salad box.",
-    options: [{ label: "Salad Box", price: 5.5 }]
+    options: [{ label: "Salad Box", price: 7.5 }]
   },
   {
     id: "boneless-fish-salad-box",
@@ -191,7 +191,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Boneless fish salad box with light island flavour.",
-    options: [{ label: "Salad Box", price: 5.5 }]
+    options: [{ label: "Salad Box", price: 9.5 }]
   },
   {
     id: "jerk-chicken-wrap",
@@ -199,7 +199,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Portable jerk chicken wrap for lunch on the go.",
-    options: [{ label: "Wrap", price: 6.5 }]
+    options: [{ label: "Wrap", price: 7.5 }]
   },
   {
     id: "fried-chicken-wrap",
@@ -207,7 +207,7 @@ const menuItems = [
     category: "Salad Boxes",
     type: "salad",
     description: "Fried chicken wrap with crispy texture and fresh fillings.",
-    options: [{ label: "Wrap", price: 6.5 }]
+    options: [{ label: "Wrap", price: 7.5 }]
   },
   {
     id: "coleslaw",
